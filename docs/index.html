@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-page-version="5">
+<html lang="zh-CN" data-page-version="6">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,273 +11,384 @@
   <title>知音 · AI 内容创作营销系统</title>
   <style>
     :root {
-      --brand-purple: #7c3aed;
-      --brand-violet: #a78bfa;
-      --brand-cyan: #06b6d4;
-      --ink: #17171d;
-      --muted: #6d6d7a;
-      --line: #e7e5ef;
-      --bg: #faf9fc;
-      --shadow: 0 24px 70px rgb(54 31 105 / 12%);
-      --radius: 22px;
+      --brand-purple: #8b7cf6;
+      --brand-purple-light: #a78bfa;
+      --brand-purple-lighter: #c4b5fd;
+      --ink: #0a0a0a;
+      --muted: #6b7280;
+      --muted-light: #9ca3af;
+      --line: #e5e5e5;
+      --sidebar: #f9f7fe;
+      --sidebar-active: rgb(167 139 250 / 10%);
+      --shadow: 0 22px 60px rgb(139 124 246 / 12%);
     }
 
     * { box-sizing: border-box; }
+    html, body { height: 100%; }
     html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
+      overflow: hidden;
       color: var(--ink);
-      background: var(--bg);
+      background: #fff;
       font-family: "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
-      line-height: 1.6;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
 
     a { color: inherit; text-decoration: none; }
-    button, a { outline: none; }
-    button:focus-visible, a:focus-visible { box-shadow: 0 0 0 3px rgb(124 58 237 / 35%); }
+    button { font: inherit; }
 
-    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
-
-    .site-header {
-      position: sticky; top: 0; z-index: 20;
-      background: rgb(250 249 252 / 82%); border-bottom: 1px solid rgb(231 229 239 / 70%);
-      backdrop-filter: blur(14px);
-    }
-    .site-header .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; letter-spacing: 0.02em; }
-    .brand-mark {
-      width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px;
-      background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan));
-      box-shadow: 0 10px 24px rgb(124 58 237 / 22%);
-    }
-    .brand-logo {
-      width: 26px; height: 26px; display: block; filter: brightness(0) invert(1);
-    }
-    .hero-logo {
-      width: 58px; height: 58px; display: grid; place-items: center; margin-bottom: 22px;
-      border-radius: 18px; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan));
-      box-shadow: 0 16px 34px rgb(124 58 237 / 26%);
-    }
-    .brand-logo-hero {
-      width: 32px; height: 32px;
-    }
-    .nav { display: flex; align-items: center; gap: 26px; font-size: 14px; color: var(--muted); }
-    .nav a:hover { color: var(--ink); }
-    .header-download {
-      display: inline-flex; align-items: center; justify-content: center; padding: 10px 18px;
-      border-radius: 999px; color: #fff;
-      background: var(--ink); font-size: 14px; font-weight: 700;
+    .app-shell {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: #fff;
     }
 
-    .hero { position: relative; overflow: hidden; padding: 64px 0 72px; }
-    .hero::before {
-      content: ""; position: absolute; width: 720px; height: 720px; top: -330px; right: -170px;
-      border-radius: 50%; background: radial-gradient(circle, rgb(167 139 250 / 35%), transparent 70%); pointer-events: none;
-    }
-    .hero .wrap { position: relative; display: grid; align-items: center; gap: 54px; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); }
-
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px;
-      border: 1px solid rgb(124 58 237 / 18%); border-radius: 999px; color: var(--brand-purple);
-      background: rgb(124 58 237 / 7%); font-size: 13px; font-weight: 700;
-    }
-    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brand-cyan); }
-    h1 { margin: 22px 0 14px; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; letter-spacing: -0.04em; font-weight: 900; }
-    h1 span { background: linear-gradient(105deg, var(--brand-purple), var(--brand-cyan)); background-clip: text; color: transparent; }
-    .lead { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 20px); }
-    .sub { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
-    .hero-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px;
-      font-size: 15px; font-weight: 800; cursor: pointer;
-      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
-    }
-    .btn-primary { color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); box-shadow: 0 16px 36px rgb(124 58 237 / 28%); }
-    .btn-primary:hover { transform: translateY(-2px); }
-    .btn-secondary { color: var(--ink); background: #fff; border: 1px solid var(--line); }
-    .btn-secondary:hover { border-color: var(--brand-violet); color: var(--brand-purple); }
-    .btn:disabled { opacity: .75; cursor: wait; }
-
-    .status { min-height: 26px; margin-top: 16px; color: var(--muted); font-size: 13px; }
-    .notice {
-      margin-top: 18px; max-width: 540px; padding: 12px 14px;
-      border: 1px solid rgb(6 182 212 / 17%); border-radius: 14px; color: #0e7490;
-      background: rgb(6 182 212 / 7%); font-size: 13px;
+    .app-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 2;
+      height: 128px;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgb(139 124 246 / 30%), rgb(139 124 246 / 12%) 62%, transparent);
     }
 
-    .app-window {
-      position: relative; padding: 14px; border: 1px solid rgb(255 255 255 / 80%); border-radius: 26px;
-      background: linear-gradient(145deg, #fff, #f3efff); box-shadow: var(--shadow); transform: rotate(1.5deg);
+    .sidebar {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex: 0 0 240px;
+      min-width: 240px;
+      flex-direction: column;
+      padding: 14px 12px 16px;
+      border-right: 1px solid var(--line);
+      background: var(--sidebar);
     }
-    .app-window::before {
-      content: ""; position: absolute; inset: -12px; z-index: -1; border-radius: 34px;
-      background: linear-gradient(140deg, rgb(167 139 250 / 30%), rgb(6 182 212 / 22%)); filter: blur(28px);
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 8px 8px 6px;
     }
-    .window-bar { display: flex; align-items: center; gap: 7px; margin-bottom: 12px; }
-    .dot { width: 9px; height: 9px; border-radius: 50%; }
-    .dot:nth-child(1) { background: #fca5a5; }
-    .dot:nth-child(2) { background: #fcd34d; }
-    .dot:nth-child(3) { background: #86efac; }
-    .window-body { display: grid; grid-template-columns: 88px 1fr; gap: 12px; min-height: 330px; }
-    .window-sidebar { display: flex; flex-direction: column; gap: 9px; padding: 12px; border-radius: 18px; background: rgb(124 58 237 / 7%); }
-    .side-pill { height: 28px; border-radius: 9px; background: rgb(255 255 255 / 85%); }
-    .side-pill:nth-child(2) { background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); }
-    .window-main { display: flex; flex-direction: column; gap: 12px; }
-    .chat-card { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: 16px; border-radius: 18px; background: rgb(255 255 255 / 78%); border: 1px solid rgb(231 229 239 / 70%); }
-    .bubble { width: 72%; min-height: 42px; border-radius: 14px; background: #f2f0fa; }
-    .bubble.user { align-self: flex-end; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); }
-    .mini-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
-    .tool { height: 42px; border-radius: 12px; background: rgb(255 255 255 / 82%); border: 1px solid var(--line); }
-
-    .section { padding: 86px 0; border-top: 1px solid var(--line); }
-    .section-head { max-width: 680px; margin-bottom: 42px; }
-    .section-kicker { margin: 0 0 10px; color: var(--brand-purple); font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-    .section h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.025em; }
-    .section p { margin: 14px 0 0; color: var(--muted); font-size: 16px; }
-    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .feature { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; transition: transform .22s ease, box-shadow .22s ease; }
-    .feature:hover { transform: translateY(-3px); box-shadow: 0 18px 38px rgb(54 31 105 / 9%); }
-    .feature-icon { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 18px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); }
-    .feature h3 { margin: 0 0 8px; font-size: 18px; }
-    .feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
-
-    .trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 38px; }
-    .trust-item { padding: 18px; text-align: center; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
-    .trust-item strong { display: block; font-size: 16px; }
-    .trust-item span { color: var(--muted); font-size: 13px; }
-
-    .cta {
-      text-align: center; padding: 96px 24px;
-      background:
-        radial-gradient(circle at 20% 0%, rgb(167 139 250 / 18%), transparent 38%),
-        radial-gradient(circle at 85% 100%, rgb(6 182 212 / 16%), transparent 42%),
-        #fff;
-      border-top: 1px solid var(--line);
+    .sidebar-logo img { width: 58px; height: 58px; display: block; }
+    .brand-wordmark {
+      display: inline-flex;
+      align-items: baseline;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 800;
+      color: var(--ink);
     }
-    .cta h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.025em; }
-    .cta p { margin: 14px auto 26px; max-width: 560px; color: var(--muted); }
-    .footer { padding: 30px 0 44px; color: var(--muted); text-align: center; font-size: 13px; }
+    .brand-wordmark b {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--brand-purple), var(--brand-purple-light));
+      background-clip: text;
+      color: transparent;
+    }
+    .sidebar-toggle {
+      margin-left: auto;
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+    }
+    .sidebar-toggle:hover { background: var(--sidebar-active); color: var(--brand-purple); }
+
+    .sidebar-nav {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 30px;
+      padding-right: 2px;
+      overflow-y: auto;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 44px;
+      padding: 0 13px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .18s ease, color .18s ease;
+    }
+    .nav-item svg { flex: 0 0 auto; }
+    .nav-item:hover, .nav-item.active {
+      color: var(--brand-purple);
+      background: var(--sidebar-active);
+    }
+
+    .sidebar-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 12px;
+    }
+    .account-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 40px;
+      padding: 0 12px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .account-row:hover { color: var(--brand-purple); background: var(--sidebar-active); }
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: #fff;
+      background: #8f9bb0;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .user-name { color: var(--ink); font-size: 14px; font-weight: 600; }
+
+    .main {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      min-width: 0;
+      overflow: auto;
+      overflow-x: hidden;
+      scrollbar-color: rgb(0 0 0 / 16%) transparent;
+      scrollbar-width: thin;
+    }
+    .main::-webkit-scrollbar { width: 8px; }
+    .main::-webkit-scrollbar-track { background: transparent; }
+    .main::-webkit-scrollbar-thumb { background: rgb(0 0 0 / 16%); border-radius: 8px; }
+
+    .main::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .38;
+      background-image:
+        radial-gradient(circle, rgb(139 124 246 / 18%) 1px, transparent 1px),
+        radial-gradient(circle, rgb(167 139 250 / 10%) 1px, transparent 1px);
+      background-position: 0 0, 18px 22px;
+      background-size: 42px 42px, 56px 56px;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      min-height: calc(100vh - 40px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 52px 30px 42px;
+      text-align: center;
+    }
+    .hero h1 {
+      margin: 0;
+      max-width: 720px;
+      color: var(--ink);
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+    .hero-sub {
+      max-width: 680px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: clamp(15px, 2vw, 18px);
+    }
+    .hero-hint {
+      margin: 8px 0 0;
+      color: var(--muted-light);
+      font-size: 14px;
+    }
+    .download-btn {
+      min-width: 132px;
+      min-height: 48px;
+      margin-top: 30px;
+      padding: 0 26px;
+      border: 0;
+      border-radius: 14px;
+      color: #fff;
+      background: linear-gradient(90deg, var(--brand-purple), var(--brand-purple-light));
+      box-shadow: 0 14px 34px rgb(139 124 246 / 28%);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+    .download-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 38px rgb(139 124 246 / 34%); }
+    .download-btn:disabled { opacity: .75; cursor: wait; }
+    .status {
+      min-height: 18px;
+      margin-top: 13px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .hero-note {
+      margin: 5px 0 0;
+      color: var(--muted-light);
+      font-size: 12px;
+    }
+
+    .window-controls {
+      position: absolute;
+      top: 12px;
+      right: 76px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 20px;
+    }
+    .control {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 .5px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 15%);
+    }
+    .control.red { background: #ff5f57; }
+    .control.yellow { background: #febc2e; }
+    .control.green { background: #28c840; }
+
+    .ai-rail {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex: 0 0 56px;
+      min-width: 56px;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 0 36px;
+      border-left: 1px solid var(--line);
+      background: #fff;
+    }
+    .ai-rail img { width: 32px; height: 32px; }
+    .rail-spark {
+      margin-top: auto;
+      color: var(--brand-purple-light);
+      font-size: 17px;
+    }
 
     @media (max-width: 900px) {
-      .hero .wrap { grid-template-columns: 1fr; gap: 42px; }
-      .app-window { max-width: 560px; width: 100%; margin: 0 auto; transform: none; }
-      .features { grid-template-columns: repeat(2, 1fr); }
-      .trust { grid-template-columns: repeat(2, 1fr); }
+      .sidebar, .ai-rail { display: none; }
+      .window-controls { right: 14px; }
+      .main::after { background-size: 30px 30px, 40px 40px; }
+      .hero { min-height: 100vh; padding: 48px 22px 36px; }
     }
-    @media (max-width: 600px) {
-      .wrap { width: min(100% - 28px, 1160px); }
-      .nav { display: none; }
-      .hero { padding-top: 42px; }
-      .features, .trust { grid-template-columns: 1fr; }
-      .window-body { min-height: 240px; grid-template-columns: 1fr; }
-      .window-sidebar { display: none; }
-      .section { padding: 58px 0; }
-      .site-header .wrap { height: 64px; }
-      .brand-mark { width: 38px; height: 38px; }
-      .brand-logo { width: 22px; height: 22px; }
-      .header-download { padding: 9px 14px; font-size: 13px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+
+    @media (max-width: 520px) {
+      .hero h1 { font-size: 29px; }
+      .hero-sub { font-size: 15px; }
+      .download-btn { width: min(100%, 320px); }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="#"><span class="brand-mark"><img class="brand-logo" src="./zhiyin-logo.svg" alt="" aria-hidden="true"></span><span>知音</span></a>
-      <nav class="nav" aria-label="导航">
-        <a href="#features">功能</a>
-        <a href="#trust">为什么选知音</a>
-        <a href="#download">下载</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="知音导航">
+      <a class="sidebar-logo" href="#" aria-label="知音首页">
+        <img src="./zhiyin-logo.svg" alt="">
+        <span class="brand-wordmark">知<b>音</b></span>
+      </a>
+      <button class="sidebar-toggle" type="button" aria-label="收起侧边栏">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h16"/></svg>
+      </button>
+
+      <nav class="sidebar-nav">
+        <a class="nav-item active" href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1Z"/></svg>
+          <span>内容创作</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/><path d="M8 10h8M8 14h5"/></svg>
+          <span>AI互动</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-6M2 20h20"/></svg>
+          <span>数据统计</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 3-1 5-2 6-2 2-3 4-2 8a6 6 0 0 0 12 .2c.4-3.1-1.3-5.4-3.2-7.7-1-1.2-1.7-2.4-1.8-3.5Z"/><path d="M12 22a3.5 3.5 0 0 0 3.5-3.5c0-1.8-1.7-3-3.5-4.5-1.8 1.5-3.5 2.7-3.5 4.5A3.5 3.5 0 0 0 12 22Z"/></svg>
+          <span>热点内容</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+          <span>知识库</span>
+        </a>
       </nav>
-      <a class="header-download" href="#download">下载知音</a>
-    </div>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="wrap">
-        <div>
-          <div class="hero-logo"><img class="brand-logo brand-logo-hero" src="./zhiyin-logo.svg" alt="知音 Logo"></div>
-          <span class="eyebrow">AI 内容创作营销系统</span>
-          <h1>一句需求，<br><span>创作、发布、经营</span>一次完成</h1>
-          <p class="lead">AI 驱动的内容创作、多平台发布与 7×24 客户接待一站式平台。</p>
-          <p class="sub">面向零基础用户，安装后无需配置环境，打开即可使用。</p>
-          <div class="hero-actions">
-            <button class="btn btn-primary" id="download-hero" type="button">下载知音</button>
-            <a class="btn btn-secondary" href="#features">了解功能</a>
-          </div>
-          <div class="status" id="meta" aria-live="polite">正在获取最新版本…</div>
-          <div class="notice">安装包已包含本地运行所需组件。Windows 提示“已保护你的电脑”时，请点击“更多信息 → 仍要运行”。</div>
-        </div>
-
-        <div class="app-window" aria-hidden="true">
-          <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="window-body">
-            <div class="window-sidebar">
-              <span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span>
-            </div>
-            <div class="window-main">
-              <div class="chat-card"><span class="bubble"></span><span class="bubble user"></span><span class="bubble"></span></div>
-              <div class="mini-tools"><span class="tool"></span><span class="tool"></span><span class="tool"></span></div>
-            </div>
-          </div>
+      <div class="sidebar-bottom">
+        <a class="account-row" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>账号管理</span>
+        </a>
+        <div class="user-row">
+          <span class="avatar">知</span>
+          <span class="user-name">知音管理员</span>
         </div>
       </div>
-    </section>
+    </aside>
 
-    <section class="section" id="features">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="section-kicker">产品能力</p>
-          <h2>不只是聊天，更是你的内容工作台</h2>
-          <p>知音把创作、素材、发布和客户互动收进同一个桌面工作区。</p>
-        </div>
-        <div class="features">
-          <article class="feature"><span class="feature-icon">✍️</span><h3>AI 内容创作</h3><p>输入一句需求，自动生成文案、图片和视频草稿，并且支持多轮续写。</p></article>
-          <article class="feature"><span class="feature-icon">📤</span><h3>多平台发布</h3><p>支持抖音、小红书、视频号等多平台，素材和发布任务集中管理。</p></article>
-          <article class="feature"><span class="feature-icon">💬</span><h3>客户接待</h3><p>评论和私信统一处理，自动接待与人工介入随时切换。</p></article>
-          <article class="feature"><span class="feature-icon">📊</span><h3>数据与作品管理</h3><p>作品、任务、发布记录都在本地留档，随时回看和管理。</p></article>
-          <article class="feature"><span class="feature-icon">🔒</span><h3>本地账号与数据</h3><p>平台账号和本地数据保存在你的电脑，不依赖额外服务器。</p></article>
-          <article class="feature"><span class="feature-icon">🔄</span><h3>自动更新</h3><p>首次安装后，后续版本在 APP 内自动检测和更新。</p></article>
-        </div>
+    <main class="main">
+      <div class="window-controls" aria-hidden="true">
+        <span class="control red"></span>
+        <span class="control yellow"></span>
+        <span class="control green"></span>
       </div>
-    </section>
+      <section class="hero">
+        <h1>知音 AI 内容营销系统</h1>
+        <p class="hero-sub">AI 驱动的全自动内容创作、多平台发布与 7×24 客户接待一站式平台</p>
+        <p class="hero-hint">面向零基础用户，一句话即可开始创作</p>
+        <button class="download-btn" id="download" type="button">下载知音</button>
+        <div class="status" id="meta" aria-live="polite">正在获取最新版本…</div>
+        <p class="hero-note">Windows 10 / 11 · 安装包已包含本地运行所需组件</p>
+      </section>
+    </main>
 
-    <section class="section" id="trust">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="section-kicker">为什么选知音</p>
-          <h2>装到电脑上，就是一套完整工作台</h2>
-          <p>不需要安装数据库、Redis 或环境变量，下载安装即可开始。</p>
-        </div>
-        <div class="trust">
-          <div class="trust-item"><strong>全功能本地化</strong><span>自带运行组件</span></div>
-          <div class="trust-item"><strong>AI 驱动</strong><span>创作到发布一条链路</span></div>
-          <div class="trust-item"><strong>零基础可用</strong><span>无需命令行</span></div>
-          <div class="trust-item"><strong>持续更新</strong><span>后续自动升级</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta" id="download">
-      <h2>把主页装进你的电脑</h2>
-      <p>下载知音，开始你的 AI 内容创作与多平台营销。<br>Windows 10 / 11 可用。</p>
-      <button class="btn btn-primary" id="download-cta" type="button">下载知音</button>
-      <div class="status" id="meta-cta" aria-live="polite"></div>
-    </section>
-  </main>
-
-  <footer class="footer"><div class="wrap">知音 · AI 内容创作与多平台营销助手 · 统一主页入口</div></footer>
+    <aside class="ai-rail" aria-hidden="true">
+      <img src="./zhiyin-logo.svg" alt="">
+      <span class="rail-spark">✦</span>
+    </aside>
+  </div>
 
   <script>
-    const buttons = [document.getElementById('download-hero'), document.getElementById('download-cta')]
-    const metas = [document.getElementById('meta'), document.getElementById('meta-cta')]
+    const button = document.getElementById('download')
+    const meta = document.getElementById('meta')
 
     function resolveRepository() {
       const host = window.location.hostname
@@ -302,30 +413,29 @@
     async function loadStatus() {
       try {
         const installer = await findLatestInstaller()
-        const text = `最新版本：${installer.name.replace(/\.exe$/, '')} · ${formatSize(installer.size)}`
-        metas.forEach(node => { if (node) node.textContent = text })
+        meta.textContent = `最新版本：${installer.name.replace(/\.exe$/, '')} · ${formatSize(installer.size)}`
       }
       catch {
-        metas.forEach(node => { if (node) node.textContent = '下载链接正在准备中，请稍后重试' })
+        meta.textContent = '下载链接正在准备中，请稍后重试'
       }
     }
 
     async function download() {
-      buttons.forEach(button => { if (button) button.disabled = true })
-      metas.forEach(node => { if (node) node.textContent = '正在准备下载…' })
+      button.disabled = true
+      meta.textContent = '正在准备下载…'
       try {
         const installer = await findLatestInstaller()
         window.location.href = installer.browser_download_url
       }
       catch {
-        metas.forEach(node => { if (node) node.textContent = '暂时无法获取安装包，请稍后重试' })
+        meta.textContent = '暂时无法获取安装包，请稍后重试'
       }
       finally {
-        buttons.forEach(button => { if (button) button.disabled = false })
+        button.disabled = false
       }
     }
 
-    buttons.forEach(button => button?.addEventListener('click', download))
+    button.addEventListener('click', download)
     loadStatus()
   </script>
 </body>
