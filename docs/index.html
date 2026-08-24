@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-page-version="6">
+<html lang="zh-CN" data-page-version="7">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +17,6 @@
       --ink: #0a0a0a;
       --muted: #6b7280;
       --muted-light: #9ca3af;
-      --line: #e5e5e5;
-      --sidebar: #f9f7fe;
-      --sidebar-active: rgb(167 139 250 / 10%);
-      --shadow: 0 22px 60px rgb(139 124 246 / 12%);
     }
 
     * { box-sizing: border-box; }
@@ -28,218 +24,73 @@
     html { scroll-behavior: smooth; }
 
     body {
+      position: relative;
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
       margin: 0;
-      overflow: hidden;
+      overflow-x: hidden;
       color: var(--ink);
       background: #fff;
       font-family: "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
-      line-height: 1.5;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
 
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
-
-    .app-shell {
-      position: relative;
-      display: flex;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: #fff;
-    }
-
-    .app-shell::before {
+    body::before {
       content: "";
-      position: absolute;
+      position: fixed;
       inset: 0 0 auto;
-      z-index: 2;
-      height: 128px;
+      height: 320px;
       pointer-events: none;
-      background: linear-gradient(180deg, rgb(139 124 246 / 30%), rgb(139 124 246 / 12%) 62%, transparent);
+      background: linear-gradient(180deg, rgb(139 124 246 / 22%), rgb(139 124 246 / 8%) 62%, transparent);
     }
 
-    .sidebar {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      flex: 0 0 240px;
-      min-width: 240px;
-      flex-direction: column;
-      padding: 14px 12px 16px;
-      border-right: 1px solid var(--line);
-      background: var(--sidebar);
-    }
-
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 8px 8px 6px;
-    }
-    .sidebar-logo img { width: 58px; height: 58px; display: block; }
-    .brand-wordmark {
-      display: inline-flex;
-      align-items: baseline;
-      font-size: 24px;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      font-weight: 800;
-      color: var(--ink);
-    }
-    .brand-wordmark b {
-      display: inline-block;
-      background: linear-gradient(90deg, var(--brand-purple), var(--brand-purple-light));
-      background-clip: text;
-      color: transparent;
-    }
-    .sidebar-toggle {
-      margin-left: auto;
-      display: grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border: 0;
-      border-radius: 8px;
-      color: var(--muted);
-      background: transparent;
-      cursor: pointer;
-    }
-    .sidebar-toggle:hover { background: var(--sidebar-active); color: var(--brand-purple); }
-
-    .sidebar-nav {
-      display: flex;
-      flex: 1;
-      min-height: 0;
-      flex-direction: column;
-      gap: 5px;
-      margin-top: 30px;
-      padding-right: 2px;
-      overflow-y: auto;
-    }
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-height: 44px;
-      padding: 0 13px;
-      border-radius: 12px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background .18s ease, color .18s ease;
-    }
-    .nav-item svg { flex: 0 0 auto; }
-    .nav-item:hover, .nav-item.active {
-      color: var(--brand-purple);
-      background: var(--sidebar-active);
-    }
-
-    .sidebar-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: auto;
-      padding-top: 12px;
-    }
-    .account-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-height: 40px;
-      padding: 0 12px;
-      border-radius: 12px;
-      color: var(--muted);
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .account-row:hover { color: var(--brand-purple); background: var(--sidebar-active); }
-    .user-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px 10px;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-    .avatar {
-      display: grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      color: #fff;
-      background: #8f9bb0;
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .user-name { color: var(--ink); font-size: 14px; font-weight: 600; }
-
-    .main {
+    .download-page {
       position: relative;
       z-index: 1;
-      flex: 1;
-      min-width: 0;
-      overflow: auto;
-      overflow-x: hidden;
-      scrollbar-color: rgb(0 0 0 / 16%) transparent;
-      scrollbar-width: thin;
-    }
-    .main::-webkit-scrollbar { width: 8px; }
-    .main::-webkit-scrollbar-track { background: transparent; }
-    .main::-webkit-scrollbar-thumb { background: rgb(0 0 0 / 16%); border-radius: 8px; }
-
-    .main::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: .38;
-      background-image:
-        radial-gradient(circle, rgb(139 124 246 / 18%) 1px, transparent 1px),
-        radial-gradient(circle, rgb(167 139 250 / 10%) 1px, transparent 1px);
-      background-position: 0 0, 18px 22px;
-      background-size: 42px 42px, 56px 56px;
-    }
-
-    .hero {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      min-height: calc(100vh - 40px);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 52px 30px 42px;
+      width: min(620px, calc(100% - 40px));
+      padding: 54px 34px 48px;
       text-align: center;
     }
-    .hero h1 {
+
+    .logo {
+      display: block;
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 18px;
+    }
+
+    h1 {
       margin: 0;
-      max-width: 720px;
       color: var(--ink);
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1.18;
-      letter-spacing: -0.02em;
+      font-size: clamp(30px, 5vw, 42px);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
       font-weight: 800;
     }
-    .hero-sub {
-      max-width: 680px;
-      margin: 20px 0 0;
+
+    .subtitle {
+      max-width: 540px;
+      margin: 20px auto 0;
       color: var(--muted);
       font-size: clamp(15px, 2vw, 18px);
     }
-    .hero-hint {
+
+    .hint {
       margin: 8px 0 0;
       color: var(--muted-light);
       font-size: 14px;
     }
+
     .download-btn {
-      min-width: 132px;
-      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 150px;
+      min-height: 50px;
       margin-top: 30px;
-      padding: 0 26px;
+      padding: 0 30px;
       border: 0;
       border-radius: 14px;
       color: #fff;
@@ -250,141 +101,42 @@
       cursor: pointer;
       transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
     }
-    .download-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 38px rgb(139 124 246 / 34%); }
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgb(139 124 246 / 34%);
+    }
     .download-btn:disabled { opacity: .75; cursor: wait; }
+
     .status {
-      min-height: 18px;
-      margin-top: 13px;
+      min-height: 20px;
+      margin-top: 14px;
       color: var(--muted);
       font-size: 12px;
     }
-    .hero-note {
+
+    .note {
       margin: 5px 0 0;
       color: var(--muted-light);
       font-size: 12px;
     }
 
-    .window-controls {
-      position: absolute;
-      top: 12px;
-      right: 76px;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 20px;
-    }
-    .control {
-      display: inline-block;
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      box-shadow: inset 0 0 0 .5px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 15%);
-    }
-    .control.red { background: #ff5f57; }
-    .control.yellow { background: #febc2e; }
-    .control.green { background: #28c840; }
-
-    .ai-rail {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      flex: 0 0 56px;
-      min-width: 56px;
-      flex-direction: column;
-      align-items: center;
-      padding: 28px 0 36px;
-      border-left: 1px solid var(--line);
-      background: #fff;
-    }
-    .ai-rail img { width: 32px; height: 32px; }
-    .rail-spark {
-      margin-top: auto;
-      color: var(--brand-purple-light);
-      font-size: 17px;
-    }
-
-    @media (max-width: 900px) {
-      .sidebar, .ai-rail { display: none; }
-      .window-controls { right: 14px; }
-      .main::after { background-size: 30px 30px, 40px 40px; }
-      .hero { min-height: 100vh; padding: 48px 22px 36px; }
-    }
-
     @media (max-width: 520px) {
-      .hero h1 { font-size: 29px; }
-      .hero-sub { font-size: 15px; }
+      .download-page { padding: 42px 22px 38px; }
+      .logo { width: 72px; height: 72px; }
       .download-btn { width: min(100%, 320px); }
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="知音导航">
-      <a class="sidebar-logo" href="#" aria-label="知音首页">
-        <img src="./zhiyin-logo.svg" alt="">
-        <span class="brand-wordmark">知<b>音</b></span>
-      </a>
-      <button class="sidebar-toggle" type="button" aria-label="收起侧边栏">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h16"/></svg>
-      </button>
-
-      <nav class="sidebar-nav">
-        <a class="nav-item active" href="#">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1Z"/></svg>
-          <span>内容创作</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/><path d="M8 10h8M8 14h5"/></svg>
-          <span>AI互动</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-6M2 20h20"/></svg>
-          <span>数据统计</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 3-1 5-2 6-2 2-3 4-2 8a6 6 0 0 0 12 .2c.4-3.1-1.3-5.4-3.2-7.7-1-1.2-1.7-2.4-1.8-3.5Z"/><path d="M12 22a3.5 3.5 0 0 0 3.5-3.5c0-1.8-1.7-3-3.5-4.5-1.8 1.5-3.5 2.7-3.5 4.5A3.5 3.5 0 0 0 12 22Z"/></svg>
-          <span>热点内容</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
-          <span>知识库</span>
-        </a>
-      </nav>
-
-      <div class="sidebar-bottom">
-        <a class="account-row" href="#">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span>账号管理</span>
-        </a>
-        <div class="user-row">
-          <span class="avatar">知</span>
-          <span class="user-name">知音管理员</span>
-        </div>
-      </div>
-    </aside>
-
-    <main class="main">
-      <div class="window-controls" aria-hidden="true">
-        <span class="control red"></span>
-        <span class="control yellow"></span>
-        <span class="control green"></span>
-      </div>
-      <section class="hero">
-        <h1>知音 AI 内容营销系统</h1>
-        <p class="hero-sub">AI 驱动的全自动内容创作、多平台发布与 7×24 客户接待一站式平台</p>
-        <p class="hero-hint">面向零基础用户，一句话即可开始创作</p>
-        <button class="download-btn" id="download" type="button">下载知音</button>
-        <div class="status" id="meta" aria-live="polite">正在获取最新版本…</div>
-        <p class="hero-note">Windows 10 / 11 · 安装包已包含本地运行所需组件</p>
-      </section>
-    </main>
-
-    <aside class="ai-rail" aria-hidden="true">
-      <img src="./zhiyin-logo.svg" alt="">
-      <span class="rail-spark">✦</span>
-    </aside>
-  </div>
+  <main class="download-page">
+    <img class="logo" src="./zhiyin-logo.svg" alt="知音 Logo">
+    <h1>知音 AI 内容营销系统</h1>
+    <p class="subtitle">AI 驱动的全自动内容创作、多平台发布与 7×24 客户接待一站式平台</p>
+    <p class="hint">面向零基础用户，一句话即可开始创作</p>
+    <button class="download-btn" id="download" type="button">下载知音</button>
+    <div class="status" id="meta" aria-live="polite">正在获取最新版本…</div>
+    <p class="note">Windows 10 / 11 · 安装包已包含本地运行所需组件</p>
+  </main>
 
   <script>
     const button = document.getElementById('download')
