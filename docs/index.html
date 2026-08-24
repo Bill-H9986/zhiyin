@@ -3,204 +3,308 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>下载知音</title>
+  <meta name="description" content="知音 AI 内容创作与多平台营销助手，下载安装后即可直接使用。">
+  <title>知音 · AI 内容创作营销系统</title>
   <style>
     :root {
-      --brand: linear-gradient(135deg, #7c3aed, #06b6d4);
-      --text: #18181b;
-      --muted: #71717a;
-      --card: #ffffff;
-      --border: #e5e5e5;
-      --danger: #dc2626;
+      --brand-purple: #7c3aed;
+      --brand-violet: #a78bfa;
+      --brand-cyan: #06b6d4;
+      --ink: #17171d;
+      --muted: #6d6d7a;
+      --line: #e7e5ef;
+      --bg: #faf9fc;
+      --shadow: 0 24px 70px rgb(54 31 105 / 12%);
+      --radius: 22px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: #f4f4f5;
-      color: var(--text);
-      font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-    }
-
-    main {
-      width: min(520px, calc(100vw - 32px));
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 48px 32px;
-      text-align: center;
-      box-shadow: 0 20px 60px rgb(0 0 0 / 8%);
-    }
-
-    .mark {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 20px;
-      display: grid;
-      place-items: center;
-      border-radius: 22px;
-      background: var(--brand);
-      color: #fff;
-      font-size: 34px;
-      font-weight: 700;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 30px;
-      letter-spacing: 0.02em;
-    }
-
-    p {
-      margin: 12px 0 28px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    a.button,
-    button {
-      width: 100%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border: 0;
-      border-radius: 16px;
-      padding: 18px 24px;
-      background: var(--brand);
-      color: #fff;
-      font-size: 18px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    a.button:hover,
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgb(124 58 237 / 25%);
-    }
-
-    button:disabled {
-      cursor: wait;
-      opacity: 0.7;
-    }
-
-    .meta {
-      margin-top: 20px;
-      min-height: 44px;
-      color: var(--muted);
-      font-size: 14px;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
+    a { color: inherit; text-decoration: none; }
+    button, a { outline: none; }
+    button:focus-visible, a:focus-visible { box-shadow: 0 0 0 3px rgb(124 58 237 / 35%); }
+
+    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgb(250 249 252 / 82%); border-bottom: 1px solid rgb(231 229 239 / 70%);
+      backdrop-filter: blur(14px);
+    }
+    .site-header .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; letter-spacing: 0.02em; }
+    .brand-mark {
+      width: 38px; height: 38px; display: grid; place-items: center; border-radius: 14px;
+      color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); font-size: 15px;
+    }
+    .nav { display: flex; align-items: center; gap: 26px; font-size: 14px; color: var(--muted); }
+    .nav a:hover { color: var(--ink); }
+    .header-download {
+      display: none; padding: 10px 16px; border-radius: 999px; color: #fff;
+      background: var(--ink); font-size: 14px; font-weight: 700;
+    }
+
+    .hero { position: relative; overflow: hidden; padding: 64px 0 72px; }
+    .hero::before {
+      content: ""; position: absolute; width: 720px; height: 720px; top: -330px; right: -170px;
+      border-radius: 50%; background: radial-gradient(circle, rgb(167 139 250 / 35%), transparent 70%); pointer-events: none;
+    }
+    .hero .wrap { position: relative; display: grid; align-items: center; gap: 54px; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px;
+      border: 1px solid rgb(124 58 237 / 18%); border-radius: 999px; color: var(--brand-purple);
+      background: rgb(124 58 237 / 7%); font-size: 13px; font-weight: 700;
+    }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brand-cyan); }
+    h1 { margin: 22px 0 14px; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; letter-spacing: -0.04em; font-weight: 900; }
+    h1 span { background: linear-gradient(105deg, var(--brand-purple), var(--brand-cyan)); background-clip: text; color: transparent; }
+    .lead { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 20px); }
+    .sub { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+    .hero-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px;
+      font-size: 15px; font-weight: 800; cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .btn-primary { color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); box-shadow: 0 16px 36px rgb(124 58 237 / 28%); }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary { color: var(--ink); background: #fff; border: 1px solid var(--line); }
+    .btn-secondary:hover { border-color: var(--brand-violet); color: var(--brand-purple); }
+    .btn:disabled { opacity: .75; cursor: wait; }
+
+    .status { min-height: 26px; margin-top: 16px; color: var(--muted); font-size: 13px; }
     .notice {
-      margin-top: 24px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      font-size: 13px;
-      line-height: 1.6;
-      text-align: left;
+      margin-top: 18px; max-width: 540px; padding: 12px 14px;
+      border: 1px solid rgb(6 182 212 / 17%); border-radius: 14px; color: #0e7490;
+      background: rgb(6 182 212 / 7%); font-size: 13px;
     }
 
-    a.fallback {
-      color: var(--danger);
-      text-decoration: underline;
+    .app-window {
+      position: relative; padding: 14px; border: 1px solid rgb(255 255 255 / 80%); border-radius: 26px;
+      background: linear-gradient(145deg, #fff, #f3efff); box-shadow: var(--shadow); transform: rotate(1.5deg);
+    }
+    .app-window::before {
+      content: ""; position: absolute; inset: -12px; z-index: -1; border-radius: 34px;
+      background: linear-gradient(140deg, rgb(167 139 250 / 30%), rgb(6 182 212 / 22%)); filter: blur(28px);
+    }
+    .window-bar { display: flex; align-items: center; gap: 7px; margin-bottom: 12px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot:nth-child(1) { background: #fca5a5; }
+    .dot:nth-child(2) { background: #fcd34d; }
+    .dot:nth-child(3) { background: #86efac; }
+    .window-body { display: grid; grid-template-columns: 88px 1fr; gap: 12px; min-height: 330px; }
+    .window-sidebar { display: flex; flex-direction: column; gap: 9px; padding: 12px; border-radius: 18px; background: rgb(124 58 237 / 7%); }
+    .side-pill { height: 28px; border-radius: 9px; background: rgb(255 255 255 / 85%); }
+    .side-pill:nth-child(2) { background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); }
+    .window-main { display: flex; flex-direction: column; gap: 12px; }
+    .chat-card { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: 16px; border-radius: 18px; background: rgb(255 255 255 / 78%); border: 1px solid rgb(231 229 239 / 70%); }
+    .bubble { width: 72%; min-height: 42px; border-radius: 14px; background: #f2f0fa; }
+    .bubble.user { align-self: flex-end; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); }
+    .mini-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .tool { height: 42px; border-radius: 12px; background: rgb(255 255 255 / 82%); border: 1px solid var(--line); }
+
+    .section { padding: 86px 0; border-top: 1px solid var(--line); }
+    .section-head { max-width: 680px; margin-bottom: 42px; }
+    .section-kicker { margin: 0 0 10px; color: var(--brand-purple); font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .section h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.025em; }
+    .section p { margin: 14px 0 0; color: var(--muted); font-size: 16px; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; transition: transform .22s ease, box-shadow .22s ease; }
+    .feature:hover { transform: translateY(-3px); box-shadow: 0 18px 38px rgb(54 31 105 / 9%); }
+    .feature-icon { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 18px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); }
+    .feature h3 { margin: 0 0 8px; font-size: 18px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+
+    .trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 38px; }
+    .trust-item { padding: 18px; text-align: center; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    .trust-item strong { display: block; font-size: 16px; }
+    .trust-item span { color: var(--muted); font-size: 13px; }
+
+    .cta {
+      text-align: center; padding: 96px 24px;
+      background:
+        radial-gradient(circle at 20% 0%, rgb(167 139 250 / 18%), transparent 38%),
+        radial-gradient(circle at 85% 100%, rgb(6 182 212 / 16%), transparent 42%),
+        #fff;
+      border-top: 1px solid var(--line);
+    }
+    .cta h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.025em; }
+    .cta p { margin: 14px auto 26px; max-width: 560px; color: var(--muted); }
+    .footer { padding: 30px 0 44px; color: var(--muted); text-align: center; font-size: 13px; }
+
+    @media (max-width: 900px) {
+      .hero .wrap { grid-template-columns: 1fr; gap: 42px; }
+      .app-window { max-width: 560px; width: 100%; margin: 0 auto; transform: none; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .trust { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: min(100% - 28px, 1160px); }
+      .nav { display: none; }
+      .hero { padding-top: 42px; }
+      .features, .trust { grid-template-columns: 1fr; }
+      .window-body { min-height: 240px; grid-template-columns: 1fr; }
+      .window-sidebar { display: none; }
+      .section { padding: 58px 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <div class="mark">知</div>
-    <h1>知音</h1>
-    <p>AI 内容创作与多平台营销助手<br>下载安装后即可直接使用</p>
-
-    <button id="download" type="button">下载知音</button>
-
-    <div id="meta" class="meta">正在获取最新版本…</div>
-    <div id="error" class="meta" role="alert" hidden></div>
-
-    <div class="notice">
-      安装包已包含本地运行所需组件。如 Windows 提示“已保护你的电脑”，请点击“更多信息”后选择“仍要运行”。
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">知</span><span>知音</span></a>
+      <nav class="nav" aria-label="导航">
+        <a href="#features">功能</a>
+        <a href="#trust">为什么选知音</a>
+        <a href="#download">下载</a>
+      </nav>
+      <a class="header-download" href="#download">下载知音</a>
     </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <span class="eyebrow">AI 内容创作营销系统</span>
+          <h1>一句需求，<br><span>创作、发布、经营</span>一次完成</h1>
+          <p class="lead">AI 驱动的内容创作、多平台发布与 7×24 客户接待一站式平台。</p>
+          <p class="sub">面向零基础用户，安装后无需配置环境，打开即可使用。</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="download" type="button">下载知音</button>
+            <a class="btn btn-secondary" href="#features">了解功能</a>
+          </div>
+          <div class="status" id="meta" aria-live="polite">正在获取最新版本…</div>
+          <div class="notice">安装包已包含本地运行所需组件。Windows 提示“已保护你的电脑”时，请点击“更多信息 → 仍要运行”。</div>
+        </div>
+
+        <div class="app-window" aria-hidden="true">
+          <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="window-body">
+            <div class="window-sidebar">
+              <span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span>
+            </div>
+            <div class="window-main">
+              <div class="chat-card"><span class="bubble"></span><span class="bubble user"></span><span class="bubble"></span></div>
+              <div class="mini-tools"><span class="tool"></span><span class="tool"></span><span class="tool"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">产品能力</p>
+          <h2>不只是聊天，更是你的内容工作台</h2>
+          <p>知音把创作、素材、发布和客户互动收进同一个桌面工作区。</p>
+        </div>
+        <div class="features">
+          <article class="feature"><span class="feature-icon">✍️</span><h3>AI 内容创作</h3><p>输入一句需求，自动生成文案、图片和视频草稿，并且支持多轮续写。</p></article>
+          <article class="feature"><span class="feature-icon">📤</span><h3>多平台发布</h3><p>支持抖音、小红书、视频号等多平台，素材和发布任务集中管理。</p></article>
+          <article class="feature"><span class="feature-icon">💬</span><h3>客户接待</h3><p>评论和私信统一处理，自动接待与人工介入随时切换。</p></article>
+          <article class="feature"><span class="feature-icon">📊</span><h3>数据与作品管理</h3><p>作品、任务、发布记录都在本地留档，随时回看和管理。</p></article>
+          <article class="feature"><span class="feature-icon">🔒</span><h3>本地账号与数据</h3><p>平台账号和本地数据保存在你的电脑，不依赖额外服务器。</p></article>
+          <article class="feature"><span class="feature-icon">🔄</span><h3>自动更新</h3><p>首次安装后，后续版本在 APP 内自动检测和更新。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="trust">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">为什么选知音</p>
+          <h2>装到电脑上，就是一套完整工作台</h2>
+          <p>不需要安装数据库、Redis 或环境变量，下载安装即可开始。</p>
+        </div>
+        <div class="trust">
+          <div class="trust-item"><strong>全功能本地化</strong><span>自带运行组件</span></div>
+          <div class="trust-item"><strong>AI 驱动</strong><span>创作到发布一条链路</span></div>
+          <div class="trust-item"><strong>零基础可用</strong><span>无需命令行</span></div>
+          <div class="trust-item"><strong>持续更新</strong><span>后续自动升级</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="download">
+      <h2>把主页装进你的电脑</h2>
+      <p>下载知音，开始你的 AI 内容创作与多平台营销。<br>Windows 10 / 11 可用。</p>
+      <button class="btn btn-primary" id="download-cta" type="button">下载知音</button>
+      <div class="status" id="meta-cta" aria-live="polite"></div>
+    </section>
   </main>
 
+  <footer class="footer"><div class="wrap">知音 · AI 内容创作与多平台营销助手</div></footer>
+
   <script>
-    const button = document.getElementById('download')
-    const meta = document.getElementById('meta')
-    const error = document.getElementById('error')
+    const buttons = [document.getElementById('download'), document.getElementById('download-cta')]
+    const metas = [document.getElementById('meta'), document.getElementById('meta-cta')]
 
     function resolveRepository() {
       const host = window.location.hostname
       if (host.endsWith('.github.io')) {
         const owner = host.split('.')[0]
         const repo = window.location.pathname.split('/').filter(Boolean)[0]
-        if (owner && repo) {
-          return `${owner}/${repo}`
-        }
+        if (owner && repo) return `${owner}/${repo}`
       }
-      return 'YOUR_GITHUB_USER/YOUR_REPO'
+      return 'Bill-H9986/zhiyin'
     }
+
+    function formatSize(bytes) { return `${(bytes / 1024 / 1024).toFixed(0)} MB` }
 
     async function findLatestInstaller() {
-      const repository = resolveRepository()
-      const response = await fetch(`https://api.github.com/repos/${repository}/releases/latest`)
-      if (!response.ok) {
-        throw new Error(`release ${response.status}`)
-      }
+      const response = await fetch(`https://api.github.com/repos/${resolveRepository()}/releases/latest`)
+      if (!response.ok) throw new Error(`release ${response.status}`)
       const release = await response.json()
-      const installer = release.assets.find(asset => asset.name === 'zhiyin-latest.exe')
+      return release.assets.find(asset => asset.name === 'zhiyin-latest.exe')
         || release.assets.find(asset => /\.exe$/i.test(asset.name))
-      if (!installer) {
-        throw new Error('安装包尚未发布')
-      }
-      return {
-        name: installer.name,
-        size: installer.size,
-        url: installer.browser_download_url,
-      }
     }
 
-    function formatSize(bytes) {
-      if (!bytes) return ''
-      return `${(bytes / 1024 / 1024).toFixed(0)} MB`
+    async function loadStatus() {
+      try {
+        const installer = await findLatestInstaller()
+        const text = `最新版本：${installer.name.replace(/\.exe$/, '')} · ${formatSize(installer.size)}`
+        metas.forEach(node => { if (node) node.textContent = text })
+      }
+      catch {
+        metas.forEach(node => { if (node) node.textContent = '下载链接正在准备中，请稍后重试' })
+      }
     }
-
-    let repository
 
     async function download() {
-      button.disabled = true
-      meta.textContent = '正在准备下载，请稍候…'
-      error.hidden = true
-      error.textContent = ''
+      buttons.forEach(button => { if (button) button.disabled = true })
+      metas.forEach(node => { if (node) node.textContent = '正在准备下载…' })
       try {
-        repository = repository || resolveRepository()
         const installer = await findLatestInstaller()
-        meta.textContent = `版本号：${installer.name} · 大小：${formatSize(installer.size)}`
-        window.location.href = installer.url
+        window.location.href = installer.browser_download_url
       }
-      catch (reason) {
-        error.hidden = false
-        const fallbackUrl = `https://github.com/${repository || resolveRepository()}/releases/latest`
-        error.innerHTML = `暂时无法获取安装包，请稍后重试。<br>也可以：<a class="fallback" href="${fallbackUrl}" target="_blank" rel="noopener">前往 GitHub 最新发布页</a>`
-        meta.textContent = ''
+      catch {
+        metas.forEach(node => { if (node) node.textContent = '暂时无法获取安装包，请稍后重试' })
       }
       finally {
-        button.disabled = false
+        buttons.forEach(button => { if (button) button.disabled = false })
       }
     }
 
-    button.addEventListener('click', download)
-    download()
+    buttons.forEach(button => button?.addEventListener('click', download))
+    loadStatus()
   </script>
 </body>
 </html>
