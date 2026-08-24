@@ -158,7 +158,8 @@
         throw new Error(`release ${response.status}`)
       }
       const release = await response.json()
-      const installer = release.assets.find(asset => /\.exe$/i.test(asset.name))
+      const installer = release.assets.find(asset => asset.name === 'zhiyin-latest.exe')
+        || release.assets.find(asset => /\.exe$/i.test(asset.name))
       if (!installer) {
         throw new Error('安装包尚未发布')
       }
