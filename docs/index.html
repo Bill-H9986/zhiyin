@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="知音 AI 内容创作与多平台营销助手，下载安装后即可直接使用。">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="0">
   <title>知音 · AI 内容创作营销系统</title>
   <style>
     :root {
@@ -46,6 +49,11 @@
     .brand-mark {
       width: 38px; height: 38px; display: grid; place-items: center; border-radius: 14px;
       color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); font-size: 15px;
+    }
+    .page-version {
+      flex: 0 0 auto; padding: 5px 10px; border-radius: 999px;
+      color: var(--muted); background: rgb(124 58 237 / 7%);
+      border: 1px solid rgb(124 58 237 / 14%); font-size: 12px; font-weight: 600;
     }
     .nav { display: flex; align-items: center; gap: 26px; font-size: 14px; color: var(--muted); }
     .nav a:hover { color: var(--ink); }
@@ -153,7 +161,7 @@
     }
     @media (max-width: 600px) {
       .wrap { width: min(100% - 28px, 1160px); }
-      .nav { display: none; }
+      .nav, .page-version { display: none; }
       .hero { padding-top: 42px; }
       .features, .trust { grid-template-columns: 1fr; }
       .window-body { min-height: 240px; grid-template-columns: 1fr; }
@@ -169,6 +177,7 @@
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">知</span><span>知音</span></a>
+      <span class="page-version" aria-label="当前页面版本">主页版 v3</span>
       <nav class="nav" aria-label="导航">
         <a href="#features">功能</a>
         <a href="#trust">为什么选知音</a>
@@ -251,7 +260,7 @@
     </section>
   </main>
 
-  <footer class="footer"><div class="wrap">知音 · AI 内容创作与多平台营销助手</div></footer>
+  <footer class="footer"><div class="wrap">知音 · AI 内容创作与多平台营销助手 · 统一主页入口</div></footer>
 
   <script>
     const buttons = [document.getElementById('download'), document.getElementById('download-cta')]
