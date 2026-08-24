@@ -70,14 +70,6 @@
       letter-spacing: -0.02em;
     }
     .brand img { width: 34px; height: 34px; }
-    .nav { display: flex; align-items: center; gap: 26px; }
-    .nav a {
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 160ms var(--ease);
-    }
-    .nav a:hover { color: var(--ink); }
     .nav-cta {
       display: inline-flex;
       align-items: center;
@@ -131,6 +123,14 @@
       margin: 10px 0 0;
       color: var(--faint);
       font-size: 14px;
+    }
+    .hero-meta {
+      margin: 18px 0 0;
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
     }
     .hero-actions {
       display: flex;
@@ -239,6 +239,15 @@
     .tool { height: 42px; border-radius: 12px; background: #fff; border: 1px solid var(--line); }
 
     .section-header { max-width: 720px; margin: 0 auto 54px; text-align: center; }
+    .section-index {
+      display: block;
+      margin: 0 0 8px;
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
     .section-kicker {
       margin: 0 0 12px;
       color: var(--brand);
@@ -302,6 +311,39 @@
     .mini-bar { height: 7px; border-radius: 999px; background: rgb(139 124 246 / 22%); }
     .mini-bar.short { width: 64%; background: rgb(139 124 246 / 45%); }
 
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .example-card {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 24px;
+      background: var(--surface);
+      transition: transform 180ms var(--ease), box-shadow 180ms var(--ease);
+    }
+    .example-card:hover { transform: translateY(-4px); box-shadow: 0 22px 48px rgb(20 10 60 / 12%); }
+    .example-video { width: 100%; height: 100%; object-fit: cover; }
+    .example-overlay {
+      position: absolute;
+      inset: auto 0 0;
+      padding: 52px 16px 16px;
+      background: linear-gradient(180deg, transparent, rgb(0 0 0 / 70%));
+      color: #fff;
+    }
+    .example-badge {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgb(139 124 246 / 78%);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .example-title { margin: 0; font-size: 15px; line-height: 1.4; font-weight: 600; }
+
     .trust-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -334,11 +376,12 @@
     .reveal.is-visible { opacity: 1; transform: none; }
 
     @media (hover: hover) and (pointer: fine) {
-      .primary-btn, .secondary-btn, .nav-cta, .bento-card { cursor: pointer; }
+      .primary-btn, .secondary-btn, .nav-cta, .bento-card, .example-card { cursor: pointer; }
     }
     @media (max-width: 900px) {
       .bento-grid { grid-template-columns: repeat(2, 1fr); }
       .bento-card.large { grid-column: span 2; }
+      .examples-grid { grid-template-columns: repeat(2, 1fr); }
       .trust-grid { grid-template-columns: repeat(2, 1fr); }
       .trust-item:nth-child(2) { border-right: 0; }
       .trust-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -346,12 +389,12 @@
     @media (max-width: 620px) {
       .shell { padding: 0 18px; }
       .header-inner { height: 58px; }
-      .nav { display: none; }
       .hero h1 { font-size: clamp(38px, 12vw, 58px); }
       .hero-actions { width: 100%; }
       .primary-btn, .secondary-btn { width: 100%; max-width: 340px; }
       .bento-grid { grid-template-columns: 1fr; }
       .bento-card.large { grid-column: auto; }
+      .examples-grid { grid-template-columns: 1fr; }
       .window-body { grid-template-columns: 1fr; min-height: 240px; }
       .window-sidebar { display: none; }
       .trust-grid { grid-template-columns: 1fr; }
@@ -371,12 +414,7 @@
         <img src="./zhiyin-logo.png" alt="">
         <span>知音</span>
       </a>
-      <nav class="nav" aria-label="主导航">
-        <a href="#features">功能</a>
-        <a href="#trust">为什么选知音</a>
-        <a href="#download">下载</a>
-      </nav>
-      <a class="nav-cta" href="#download">下载知音</a>
+      <a class="nav-cta" href="#download-section">下载知音</a>
     </div>
   </header>
 
@@ -388,6 +426,7 @@
           <h1>一句需求，<br><span>创作、发布、经营</span>一次完成</h1>
           <p class="hero-sub">AI 驱动的内容创作、多平台发布与 7×24 客户接待一站式平台。</p>
           <p class="hero-hint">面向零基础用户，安装后无需配置环境，打开即可使用。</p>
+          <p class="hero-meta">AI 驱动 · 多平台发布 · 本地数据 · 自动更新</p>
           <div class="hero-actions">
             <button class="primary-btn" id="download" type="button">下载知音</button>
             <a class="secondary-btn" href="#features">了解功能</a>
@@ -422,6 +461,7 @@
     <section class="section section-pad" id="features">
       <div class="shell">
         <div class="section-header reveal">
+          <span class="section-index">01 / 产品能力</span>
           <p class="section-kicker">产品能力</p>
           <h2>不只是聊天，<br>更是你的内容工作台</h2>
           <p>知音把创作、素材、发布和客户互动收进同一个桌面工作区。</p>
@@ -479,9 +519,35 @@
       </div>
     </section>
 
+    <section class="section section-pad" id="examples">
+      <div class="shell">
+        <div class="section-header reveal">
+          <span class="section-index">02 / 精选示例</span>
+          <p class="section-kicker">精选示例</p>
+          <h2>看看 AI 已经能做什么</h2>
+          <p>打开页面即可实时播放。示例视频均为知音真实创作能力演示。</p>
+        </div>
+        <div class="examples-grid">
+          <article class="example-card reveal">
+            <video class="example-video" src="./assets/promptGallery/video01.mp4" poster="./assets/promptGallery/cover01.png" autoplay muted loop playsinline preload="auto"></video>
+            <div class="example-overlay"><span class="example-badge">AI 示例</span><h3 class="example-title">金丝雀码头探店打卡视频</h3></div>
+          </article>
+          <article class="example-card reveal">
+            <video class="example-video" src="./assets/promptGallery/video02.mp4" poster="./assets/promptGallery/cover02.png" autoplay muted loop playsinline preload="auto"></video>
+            <div class="example-overlay"><span class="example-badge">AI 示例</span><h3 class="example-title">餐厅探店短视频</h3></div>
+          </article>
+          <article class="example-card reveal">
+            <video class="example-video" src="./assets/promptGallery/video03.mp4" poster="./assets/promptGallery/cover03.png" autoplay muted loop playsinline preload="auto"></video>
+            <div class="example-overlay"><span class="example-badge">AI 示例</span><h3 class="example-title">老洋房英式餐厅宣传片</h3></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section section-pad" id="trust">
       <div class="shell">
         <div class="section-header reveal">
+          <span class="section-index">03 / 为什么选知音</span>
           <p class="section-kicker">为什么选知音</p>
           <h2>装到电脑上，<br>就是一套完整工作台</h2>
           <p>不需要安装数据库、Redis 或环境变量，下载安装即可开始。</p>
@@ -495,7 +561,7 @@
       </div>
     </section>
 
-    <section class="section-pad" id="download">
+    <section class="section-pad" id="download-section">
       <div class="shell">
         <div class="cta-wrap reveal">
           <h2>把主页装进你的电脑</h2>
@@ -512,6 +578,27 @@
   <script>
     const buttons = [document.getElementById('download'), document.getElementById('download-cta')]
     const metas = [document.getElementById('meta'), document.getElementById('meta-cta')]
+    const exampleVideos = Array.from(document.querySelectorAll('.example-video'))
+
+    exampleVideos.forEach(video => {
+      video.muted = true
+      video.defaultMuted = true
+      video.playsInline = true
+    })
+
+    function playExampleVideos() {
+      exampleVideos.forEach(video => {
+        const playPromise = video.play()
+        if (playPromise) playPromise.catch(() => {})
+      })
+    }
+
+    playExampleVideos()
+    window.addEventListener('load', playExampleVideos)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) playExampleVideos()
+    })
+    window.addEventListener('pointerdown', () => playExampleVideos(), { once: true })
 
     function resolveRepository() {
       const host = window.location.hostname
