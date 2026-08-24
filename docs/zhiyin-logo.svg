@@ -1,27 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
   <defs>
-    <linearGradient id="gradA" x1="20%" y1="0%" x2="80%" y2="100%">
+    <linearGradient id="zhiyinGradient" x1="10%" y1="10%" x2="90%" y2="90%">
       <stop offset="0%" stop-color="#8B7CF6"/>
-      <stop offset="52%" stop-color="#A78BFA"/>
-      <stop offset="100%" stop-color="#C4B5FD"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
     </linearGradient>
   </defs>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path
-      d="M 50 100
-         C 50 78 70 61 93 69
-         C 108 75 92 75 107 69
-         C 130 61 150 78 150 100
-         C 150 122 130 139 107 131
-         C 92 125 108 125 93 131
-         C 70 139 50 122 50 100 Z"
-      stroke="url(#gradA)"
-      stroke-width="15"
-    />
-    <g stroke="#C4B5FD" fill="none" stroke-linecap="round">
-      <path d="M 125 81 a 17 17 0 0 1 0 38" stroke-width="4" opacity="0.9"/>
-      <path d="M 137 74 a 25 25 0 0 1 0 52" stroke-width="3" opacity="0.65"/>
-      <path d="M 113 88 a 10 10 0 0 1 0 24" stroke-width="3" opacity="0.5"/>
-    </g>
-  </g>
+  <rect width="96" height="96" rx="24" fill="url(#zhiyinGradient)"/>
+  <text x="48" y="64" text-anchor="middle" fill="#fff" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="46" font-weight="800">知</text>
 </svg>
