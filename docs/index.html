@@ -55,11 +55,41 @@
       padding: 72px 24px 48px;
       text-align: center;
     }
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .logo-tile {
+      display: grid;
+      place-items: center;
+      width: 78px;
+      height: 78px;
+      border: 1px solid rgb(196 181 253 / 45%);
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fff, #f3eeff);
+      box-shadow: 0 14px 32px rgb(139 124 246 / 14%);
+    }
     .hero .logo {
       display: block;
-      width: 92px;
-      height: 92px;
-      margin: 0 auto 20px;
+      width: 56px;
+      height: 56px;
+    }
+    .brand-wordmark {
+      display: inline-flex;
+      align-items: baseline;
+      font-size: 38px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      font-weight: 850;
+      color: var(--ink);
+    }
+    .brand-wordmark b {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--brand-purple), var(--brand-purple-light));
+      background-clip: text;
+      color: transparent;
     }
     .hero h1 {
       margin: 0;
@@ -284,7 +314,10 @@
       .wrap { width: min(100% - 28px, 1120px); }
       .intro-grid, .examples-grid { grid-template-columns: 1fr; }
       .hero { padding-top: 66px; padding-bottom: 26px; }
-      .hero .logo { width: 72px; height: 72px; }
+      .brand-lockup { gap: 12px; margin-bottom: 20px; }
+      .logo-tile { width: 64px; height: 64px; border-radius: 18px; }
+      .hero .logo { width: 46px; height: 46px; }
+      .brand-wordmark { font-size: 30px; }
       .hero h1 { font-size: 30px; }
       .download-btn { width: min(100%, 320px); }
       .section { padding: 54px 0; }
@@ -294,7 +327,10 @@
 <body>
   <main>
     <section class="hero">
-      <img class="logo" src="./zhiyin-logo.svg" alt="知音 Logo">
+      <div class="brand-lockup" aria-label="知音">
+        <span class="logo-tile"><img class="logo" src="./zhiyin-logo.svg" alt=""></span>
+        <span class="brand-wordmark">知<b>音</b></span>
+      </div>
       <h1>知音 AI 内容营销系统</h1>
       <p class="subtitle">AI 驱动的全自动内容创作、多平台发布与 7×24 客户接待一站式平台</p>
       <p class="hint">面向零基础用户，一句话即可开始创作</p>
