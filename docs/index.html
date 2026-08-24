@@ -418,6 +418,27 @@
   <script>
     const buttons = document.querySelectorAll('.download-btn')
     const metas = [document.getElementById('meta'), document.getElementById('meta-bottom')]
+    const exampleVideos = Array.from(document.querySelectorAll('.example-video'))
+
+    exampleVideos.forEach(video => {
+      video.muted = true
+      video.defaultMuted = true
+      video.playsInline = true
+    })
+
+    function playExampleVideos() {
+      exampleVideos.forEach(video => {
+        const playPromise = video.play()
+        if (playPromise) playPromise.catch(() => {})
+      })
+    }
+
+    playExampleVideos()
+    window.addEventListener('load', playExampleVideos)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) playExampleVideos()
+    })
+    window.addEventListener('pointerdown', () => playExampleVideos(), { once: true })
 
     function resolveRepository() {
       const host = window.location.hostname
