@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-page-version="8">
+<html lang="zh-CN" data-page-version="15">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +12,14 @@
   <style>
     :root {
       --brand-purple: #8b7cf6;
-      --brand-purple-light: #a78bfa;
-      --brand-purple-lighter: #c4b5fd;
+      --brand-violet: #a78bfa;
+      --brand-cyan: #a78bfa;
       --ink: #0a0a0a;
       --muted: #6b7280;
-      --muted-light: #9ca3af;
       --line: #e5e5e5;
+      --bg: #fff;
+      --shadow: 0 24px 70px rgb(139 124 246 / 14%);
+      --radius: 22px;
     }
 
     * { box-sizing: border-box; }
@@ -25,421 +27,243 @@
 
     body {
       margin: 0;
-      overflow-x: hidden;
       color: var(--ink);
-      background: #fff;
+      background: var(--bg);
       font-family: "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
-      line-height: 1.55;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0 0 auto;
-      height: 320px;
-      pointer-events: none;
-      background: linear-gradient(180deg, rgb(139 124 246 / 22%), rgb(139 124 246 / 8%) 62%, transparent);
+    a { color: inherit; text-decoration: none; }
+    button, a { outline: none; }
+    button:focus-visible, a:focus-visible { box-shadow: 0 0 0 3px rgb(139 124 246 / 35%); }
+
+    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgb(255 255 255 / 88%); border-bottom: 1px solid rgb(229 229 229 / 80%);
+      backdrop-filter: blur(14px);
+    }
+    .site-header .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; letter-spacing: 0.02em; }
+    .brand-mark {
+      width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px;
+      color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-violet)); font-size: 15px;
+    }
+    .nav { display: flex; align-items: center; gap: 26px; font-size: 14px; color: var(--muted); }
+    .nav a:hover { color: var(--ink); }
+    .header-download {
+      display: inline-flex; align-items: center; justify-content: center; padding: 10px 18px;
+      border-radius: 999px; color: #fff;
+      background: linear-gradient(90deg, var(--brand-purple), var(--brand-violet));
+      box-shadow: 0 10px 24px rgb(139 124 246 / 22%);
+      font-size: 14px; font-weight: 700;
     }
 
-    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    .hero { position: relative; overflow: hidden; padding: 64px 0 72px; }
+    .hero::before {
+      content: ""; position: absolute; width: 720px; height: 720px; top: -330px; right: -170px;
+      border-radius: 50%; background: radial-gradient(circle, rgb(167 139 250 / 35%), transparent 70%); pointer-events: none;
+    }
+    .hero .wrap { position: relative; display: grid; align-items: center; gap: 54px; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); }
 
-    .hero {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      min-height: 100vh;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 72px 24px 48px;
-      text-align: center;
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px;
+      border: 1px solid rgb(139 124 246 / 18%); border-radius: 999px; color: var(--brand-purple);
+      background: rgb(139 124 246 / 7%); font-size: 13px; font-weight: 700;
     }
-    .brand-lockup {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brand-violet); }
+    h1 { margin: 22px 0 14px; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; letter-spacing: -0.04em; font-weight: 900; }
+    h1 span { background: linear-gradient(105deg, var(--brand-purple), var(--brand-violet)); background-clip: text; color: transparent; }
+    .lead { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 20px); }
+    .sub { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+    .hero-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px;
+      font-size: 15px; font-weight: 800; cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
     }
-    .logo-tile {
-      display: grid;
-      place-items: center;
-      width: 78px;
-      height: 78px;
-      border: 0;
-      border-radius: 22px;
-      background: linear-gradient(135deg, var(--brand-purple), var(--brand-purple-light));
-      box-shadow: 0 16px 36px rgb(139 124 246 / 34%);
-    }
-    .hero .logo {
-      display: block;
-      width: 56px;
-      height: 56px;
-      filter: brightness(0) invert(1);
-    }
-    .brand-wordmark {
-      display: inline-flex;
-      align-items: baseline;
-      font-size: 38px;
-      line-height: 1;
-      letter-spacing: -0.05em;
-      font-weight: 850;
-      color: var(--ink);
-    }
-    .brand-wordmark b {
-      display: inline-block;
-      background: linear-gradient(90deg, var(--brand-purple), var(--brand-purple-light));
-      background-clip: text;
-      color: transparent;
-    }
-    .hero h1 {
-      margin: 0;
-      color: var(--ink);
-      font-size: clamp(32px, 5vw, 46px);
-      line-height: 1.18;
-      letter-spacing: -0.025em;
-      font-weight: 800;
-    }
-    .hero .subtitle {
-      max-width: 620px;
-      margin: 22px auto 0;
-      color: var(--muted);
-      font-size: clamp(15px, 2vw, 18px);
-    }
-    .hero .hint {
-      margin: 8px 0 0;
-      color: var(--muted-light);
-      font-size: 14px;
+    .btn-primary { color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-violet)); box-shadow: 0 16px 36px rgb(139 124 246 / 30%); }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary { color: var(--ink); background: #fff; border: 1px solid var(--line); }
+    .btn-secondary:hover { border-color: var(--brand-violet); color: var(--brand-purple); }
+    .btn:disabled { opacity: .75; cursor: wait; }
+
+    .status { min-height: 26px; margin-top: 16px; color: var(--muted); font-size: 13px; }
+    .notice {
+      margin-top: 18px; max-width: 540px; padding: 12px 14px;
+      border: 1px solid rgb(167 139 250 / 24%); border-radius: 14px; color: #5b4bbd;
+      background: rgb(139 124 246 / 7%); font-size: 13px;
     }
 
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 150px;
-      min-height: 50px;
-      margin-top: 30px;
-      padding: 0 30px;
-      border: 0;
-      border-radius: 14px;
-      color: #fff;
-      background: linear-gradient(90deg, var(--brand-purple), var(--brand-purple-light));
-      box-shadow: 0 14px 34px rgb(139 124 246 / 28%);
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    .app-window {
+      position: relative; padding: 14px; border: 1px solid rgb(255 255 255 / 80%); border-radius: 26px;
+      background: linear-gradient(145deg, #fff, #f3efff); box-shadow: var(--shadow); transform: rotate(1.5deg);
     }
-    .download-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 38px rgb(139 124 246 / 34%);
+    .app-window::before {
+      content: ""; position: absolute; inset: -12px; z-index: -1; border-radius: 34px;
+      background: linear-gradient(140deg, rgb(167 139 250 / 30%), rgb(196 181 253 / 22%)); filter: blur(28px);
     }
-    .download-btn:disabled { opacity: .75; cursor: wait; }
-    .status {
-      min-height: 20px;
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .note {
-      margin: 5px 0 0;
-      color: var(--muted-light);
-      font-size: 12px;
-    }
+    .window-bar { display: flex; align-items: center; gap: 7px; margin-bottom: 12px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot:nth-child(1) { background: #fca5a5; }
+    .dot:nth-child(2) { background: #fcd34d; }
+    .dot:nth-child(3) { background: #86efac; }
+    .window-body { display: grid; grid-template-columns: 88px 1fr; gap: 12px; min-height: 330px; }
+    .window-sidebar { display: flex; flex-direction: column; gap: 9px; padding: 12px; border-radius: 18px; background: rgb(139 124 246 / 7%); }
+    .side-pill { height: 28px; border-radius: 9px; background: rgb(255 255 255 / 85%); }
+    .side-pill:nth-child(2) { background: linear-gradient(135deg, var(--brand-purple), var(--brand-violet)); }
+    .window-main { display: flex; flex-direction: column; gap: 12px; }
+    .chat-card { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: 16px; border-radius: 18px; background: rgb(255 255 255 / 78%); border: 1px solid rgb(229 229 229 / 80%); }
+    .bubble { width: 72%; min-height: 42px; border-radius: 14px; background: #f2f0fa; }
+    .bubble.user { align-self: flex-end; background: linear-gradient(135deg, var(--brand-purple), var(--brand-violet)); }
+    .mini-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .tool { height: 42px; border-radius: 12px; background: rgb(255 255 255 / 82%); border: 1px solid var(--line); }
 
-    .section { padding: 72px 0; }
-    .section-head { max-width: 680px; margin: 0 auto 44px; text-align: center; }
-    .section-kicker {
-      margin: 0 0 10px;
-      color: var(--brand-purple);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-    .section h2 {
-      margin: 0;
-      color: var(--ink);
-      font-size: clamp(26px, 4vw, 38px);
-      letter-spacing: -0.02em;
-      font-weight: 800;
-    }
-    .section .section-sub { margin: 14px 0 0; color: var(--muted); }
+    .section { padding: 86px 0; border-top: 1px solid var(--line); }
+    .section-head { max-width: 680px; margin-bottom: 42px; }
+    .section-kicker { margin: 0 0 10px; color: var(--brand-purple); font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .section h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.025em; }
+    .section p { margin: 14px 0 0; color: var(--muted); font-size: 16px; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; transition: transform .22s ease, box-shadow .22s ease; }
+    .feature:hover { transform: translateY(-3px); box-shadow: 0 18px 38px rgb(139 124 246 / 9%); }
+    .feature-icon { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 18px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-violet)); }
+    .feature h3 { margin: 0 0 8px; font-size: 18px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
 
-    .intro-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-    .intro-card {
-      padding: 26px 24px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: #fff;
-      box-shadow: 0 14px 38px rgb(139 124 246 / 7%);
-    }
-    .intro-icon {
-      display: grid;
-      place-items: center;
-      width: 44px;
-      height: 44px;
-      margin-bottom: 16px;
-      border-radius: 13px;
-      background: linear-gradient(135deg, rgb(139 124 246 / 10%), rgb(167 139 250 / 14%));
-      color: var(--brand-purple-light);
-      font-size: 20px;
-    }
-    .intro-card h3 { margin: 0 0 8px; color: var(--ink); font-size: 18px; }
-    .intro-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+    .trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 38px; }
+    .trust-item { padding: 18px; text-align: center; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    .trust-item strong { display: block; font-size: 16px; }
+    .trust-item span { color: var(--muted); font-size: 13px; }
 
-    .examples-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-    .example-card {
-      position: relative;
-      aspect-ratio: 9 / 16;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: #f3f3f6;
-      cursor: pointer;
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .example-card:hover { transform: translateY(-3px); box-shadow: 0 24px 44px rgb(139 124 246 / 14%); }
-    .example-video { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .example-overlay {
-      position: absolute;
-      inset: auto 0 0;
-      padding: 40px 16px 14px;
-      background: linear-gradient(180deg, transparent, rgb(0 0 0 / 74%));
-      color: #fff;
-    }
-    .example-badge {
-      display: inline-block;
-      margin-bottom: 8px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      color: #fff;
-      background: rgb(167 139 250 / 72%);
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .example-title { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
-
-    .bottom-cta {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 84px 24px 66px;
-      text-align: center;
+    .cta {
+      text-align: center; padding: 96px 24px;
       background:
-        radial-gradient(circle at 20% 0%, rgb(167 139 250 / 14%), transparent 42%),
-        radial-gradient(circle at 85% 100%, rgb(196 181 253 / 13%), transparent 42%),
+        radial-gradient(circle at 20% 0%, rgb(167 139 250 / 18%), transparent 38%),
+        radial-gradient(circle at 85% 100%, rgb(196 181 253 / 16%), transparent 42%),
         #fff;
+      border-top: 1px solid var(--line);
     }
-    .bottom-cta h2 { margin: 0; font-size: clamp(26px, 4vw, 38px); font-weight: 800; }
-    .bottom-cta p { margin: 14px auto 0; max-width: 560px; color: var(--muted); }
-
-    .footer {
-      padding: 24px 16px 34px;
-      color: var(--muted-light);
-      text-align: center;
-      font-size: 13px;
-    }
-
-    .example-dialog {
-      width: min(760px, calc(100% - 32px));
-      max-height: min(82vh, 720px);
-      padding: 0;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: 0 32px 80px rgb(20 10 60 / 25%);
-      background: #fff;
-    }
-    .example-dialog::backdrop { background: rgb(10 10 10 / 48%); }
-    .dialog-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line);
-    }
-    .dialog-title { margin: 0; font-size: 17px; }
-    .dialog-close {
-      display: grid;
-      place-items: center;
-      width: 32px;
-      height: 32px;
-      border: 0;
-      border-radius: 9px;
-      color: var(--muted);
-      background: #f5f3fb;
-      cursor: pointer;
-    }
-    .dialog-body { max-height: calc(82vh - 66px); overflow: auto; padding: 18px; }
-    .dialog-label { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
-    .dialog-prompt {
-      margin: 0;
-      padding: 14px;
-      border-radius: 12px;
-      color: var(--ink);
-      background: #f8f7fc;
-      font-size: 13px;
-      line-height: 1.75;
-      white-space: pre-wrap;
-    }
-    .dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; }
-    .dialog-action {
-      min-height: 38px;
-      padding: 0 16px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      color: var(--ink);
-      background: #fff;
-      cursor: pointer;
-    }
-    .dialog-action.primary {
-      border-color: transparent;
-      color: #fff;
-      background: linear-gradient(90deg, var(--brand-purple), var(--brand-purple-light));
-    }
+    .cta h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.025em; }
+    .cta p { margin: 14px auto 26px; max-width: 560px; color: var(--muted); }
+    .footer { padding: 30px 0 44px; color: var(--muted); text-align: center; font-size: 13px; }
 
     @media (max-width: 900px) {
-      .intro-grid, .examples-grid { grid-template-columns: repeat(2, 1fr); }
-      .hero { min-height: auto; padding-top: 82px; padding-bottom: 48px; }
+      .hero .wrap { grid-template-columns: 1fr; gap: 42px; }
+      .app-window { max-width: 560px; width: 100%; margin: 0 auto; transform: none; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .trust { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 620px) {
-      .wrap { width: min(100% - 28px, 1120px); }
-      .intro-grid, .examples-grid { grid-template-columns: 1fr; }
-      .hero { padding-top: 66px; padding-bottom: 26px; }
-      .brand-lockup { gap: 12px; margin-bottom: 20px; }
-      .logo-tile { width: 64px; height: 64px; border-radius: 18px; }
-      .hero .logo { width: 46px; height: 46px; }
-      .brand-wordmark { font-size: 30px; }
-      .hero h1 { font-size: 30px; }
-      .download-btn { width: min(100%, 320px); }
-      .section { padding: 54px 0; }
+    @media (max-width: 600px) {
+      .wrap { width: min(100% - 28px, 1160px); }
+      .nav { display: none; }
+      .hero { padding-top: 42px; }
+      .features, .trust { grid-template-columns: 1fr; }
+      .window-body { min-height: 240px; grid-template-columns: 1fr; }
+      .window-sidebar { display: none; }
+      .section { padding: 58px 0; }
+      .header-download { padding: 9px 14px; font-size: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
     }
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">知</span><span>知音</span></a>
+      <nav class="nav" aria-label="导航">
+        <a href="#features">功能</a>
+        <a href="#trust">为什么选知音</a>
+        <a href="#download">下载</a>
+      </nav>
+      <a class="header-download" href="#download">下载知音</a>
+    </div>
+  </header>
+
   <main>
     <section class="hero">
-      <div class="brand-lockup" aria-label="知音">
-        <span class="logo-tile"><img class="logo" src="./zhiyin-logo.svg" alt=""></span>
-        <span class="brand-wordmark">知<b>音</b></span>
+      <div class="wrap">
+        <div>
+          <span class="eyebrow">AI 内容创作营销系统</span>
+          <h1>一句需求，<br><span>创作、发布、经营</span>一次完成</h1>
+          <p class="lead">AI 驱动的内容创作、多平台发布与 7×24 客户接待一站式平台。</p>
+          <p class="sub">面向零基础用户，安装后无需配置环境，打开即可使用。</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="download" type="button">下载知音</button>
+            <a class="btn btn-secondary" href="#features">了解功能</a>
+          </div>
+          <div class="status" id="meta" aria-live="polite">正在获取最新版本…</div>
+          <div class="notice">安装包已包含本地运行所需组件。Windows 提示“已保护你的电脑”时，请点击“更多信息 → 仍要运行”。</div>
+        </div>
+
+        <div class="app-window" aria-hidden="true">
+          <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="window-body">
+            <div class="window-sidebar">
+              <span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span><span class="side-pill"></span>
+            </div>
+            <div class="window-main">
+              <div class="chat-card"><span class="bubble"></span><span class="bubble user"></span><span class="bubble"></span></div>
+              <div class="mini-tools"><span class="tool"></span><span class="tool"></span><span class="tool"></span></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1>知音 AI 内容营销系统</h1>
-      <p class="subtitle">AI 驱动的全自动内容创作、多平台发布与 7×24 客户接待一站式平台</p>
-      <p class="hint">面向零基础用户，一句话即可开始创作</p>
-      <button class="download-btn" id="download-hero" type="button">下载知音</button>
-      <div class="status" id="meta" aria-live="polite">正在获取最新版本…</div>
-      <p class="note">Windows 10 / 11 · 安装包已包含本地运行所需组件</p>
     </section>
 
-    <section class="section" id="intro">
+    <section class="section" id="features">
       <div class="wrap">
         <div class="section-head">
-          <p class="section-kicker">知音简介</p>
-          <h2>把创作到发布收进同一个工作台</h2>
-          <p class="section-sub">AI 负责重活，你只需要说出需求。</p>
+          <p class="section-kicker">产品能力</p>
+          <h2>不只是聊天，更是你的内容工作台</h2>
+          <p>知音把创作、素材、发布和客户互动收进同一个桌面工作区。</p>
         </div>
-        <div class="intro-grid">
-          <div class="intro-card">
-            <div class="intro-icon">✍️</div>
-            <h3>AI 内容创作</h3>
-            <p>输入一句话需求，自动生成文案、图片和视频草稿，支持多轮续写。</p>
-          </div>
-          <div class="intro-card">
-            <div class="intro-icon">📤</div>
-            <h3>多平台发布</h3>
-            <p>支持抖音、小红书、视频号等多平台，素材和发布任务集中管理。</p>
-          </div>
-          <div class="intro-card">
-            <div class="intro-icon">💬</div>
-            <h3>客户接待</h3>
-            <p>评论和私信统一处理，自动接待与人工介入随时切换。</p>
-          </div>
+        <div class="features">
+          <article class="feature"><span class="feature-icon">✍️</span><h3>AI 内容创作</h3><p>输入一句需求，自动生成文案、图片和视频草稿，并且支持多轮续写。</p></article>
+          <article class="feature"><span class="feature-icon">📤</span><h3>多平台发布</h3><p>支持抖音、小红书、视频号等多平台，素材和发布任务集中管理。</p></article>
+          <article class="feature"><span class="feature-icon">💬</span><h3>客户接待</h3><p>评论和私信统一处理，自动接待与人工介入随时切换。</p></article>
+          <article class="feature"><span class="feature-icon">📊</span><h3>数据与作品管理</h3><p>作品、任务、发布记录都在本地留档，随时回看和管理。</p></article>
+          <article class="feature"><span class="feature-icon">🔒</span><h3>本地账号与数据</h3><p>平台账号和本地数据保存在你的电脑，不依赖额外服务器。</p></article>
+          <article class="feature"><span class="feature-icon">🔄</span><h3>自动更新</h3><p>首次安装后，后续版本在 APP 内自动检测和更新。</p></article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="examples">
+    <section class="section" id="trust">
       <div class="wrap">
         <div class="section-head">
-          <p class="section-kicker">精选示例</p>
-          <h2>探索精选示例，一键应用快速开始创作</h2>
-          <p class="section-sub">点击卡片查看完整提示词。</p>
+          <p class="section-kicker">为什么选知音</p>
+          <h2>装到电脑上，就是一套完整工作台</h2>
+          <p>不需要安装数据库、Redis 或环境变量，下载安装即可开始。</p>
         </div>
-        <div class="examples-grid">
-          <article class="example-card" data-title="金丝雀码头探店打卡视频" data-prompt="制作一条竖屏短视频（9:16，时长 15 秒），现代金丝雀码头高档餐厅探店打卡：开场博主走进餐厅大门，穿过精致用餐区，餐桌摆盘考究的菜品特写，暖色灯光，手持跟拍运镜，节奏舒缓，真实美食探店视频质感。">
-            <video class="example-video" src="./assets/promptGallery/video01.mp4" poster="./assets/promptGallery/cover01.png" autoplay muted loop playsinline preload="auto"></video>
-            <div class="example-overlay"><span class="example-badge">AI 示例</span><h3 class="example-title">金丝雀码头探店打卡视频</h3></div>
-          </article>
-          <article class="example-card" data-title="餐厅探店短视频" data-prompt="制作一条竖屏短视频（9:16，时长 15 秒），餐厅探店短视频：开场店外街景，博主推开餐厅门走进店内，餐厅内部环境全景，刚上桌的招牌菜品特写，电影感运镜，节奏舒缓，真实探店记录质感。">
-            <video class="example-video" src="./assets/promptGallery/video02.mp4" poster="./assets/promptGallery/cover02.png" autoplay muted loop playsinline preload="auto"></video>
-            <div class="example-overlay"><span class="example-badge">AI 示例</span><h3 class="example-title">餐厅探店短视频</h3></div>
-          </article>
-          <article class="example-card" data-title="老洋房英式餐厅宣传片" data-prompt="制作一条竖屏短视频（9:16，时长 15 秒），老洋房英式餐厅宣传片：开场老洋房建筑外观，复古英式餐厅内部环境，精致的英式菜肴与炸鱼薯条特写，暖色调灯光，节奏舒缓，高级宣传片质感。">
-            <video class="example-video" src="./assets/promptGallery/video03.mp4" poster="./assets/promptGallery/cover03.png" autoplay muted loop playsinline preload="auto"></video>
-            <div class="example-overlay"><span class="example-badge">AI 示例</span><h3 class="example-title">老洋房英式餐厅宣传片</h3></div>
-          </article>
+        <div class="trust">
+          <div class="trust-item"><strong>全功能本地化</strong><span>自带运行组件</span></div>
+          <div class="trust-item"><strong>AI 驱动</strong><span>创作到发布一条链路</span></div>
+          <div class="trust-item"><strong>零基础可用</strong><span>无需命令行</span></div>
+          <div class="trust-item"><strong>持续更新</strong><span>后续自动升级</span></div>
         </div>
       </div>
     </section>
 
-    <section class="bottom-cta">
-      <h2>准备好开始创作了吗？</h2>
-      <p>下载知音，开始你的 AI 内容创作与多平台营销。</p>
-      <button class="download-btn" id="download-bottom" type="button">下载知音</button>
-      <div class="status" id="meta-bottom" aria-live="polite"></div>
+    <section class="cta" id="download">
+      <h2>把主页装进你的电脑</h2>
+      <p>下载知音，开始你的 AI 内容创作与多平台营销。<br>Windows 10 / 11 可用。</p>
+      <button class="btn btn-primary" id="download-cta" type="button">下载知音</button>
+      <div class="status" id="meta-cta" aria-live="polite"></div>
     </section>
   </main>
 
-  <footer class="footer">知音 · AI 内容创作与多平台营销助手</footer>
-
-  <dialog class="example-dialog" id="example-dialog">
-    <div class="dialog-head">
-      <h2 class="dialog-title" id="dialog-title"></h2>
-      <button class="dialog-close" id="dialog-close" type="button" aria-label="关闭">×</button>
-    </div>
-    <div class="dialog-body">
-      <p class="dialog-label">提示词：</p>
-      <pre class="dialog-prompt" id="dialog-prompt"></pre>
-      <div class="dialog-actions">
-        <button class="dialog-action" id="copy-prompt" type="button">复制提示词</button>
-        <button class="dialog-action primary" id="apply-prompt" type="button">一键应用</button>
-      </div>
-    </div>
-  </dialog>
+  <footer class="footer"><div class="wrap">知音 · AI 内容创作与多平台营销助手</div></footer>
 
   <script>
-    const buttons = document.querySelectorAll('.download-btn')
-    const metas = [document.getElementById('meta'), document.getElementById('meta-bottom')]
-    const exampleVideos = Array.from(document.querySelectorAll('.example-video'))
-
-    exampleVideos.forEach(video => {
-      video.muted = true
-      video.defaultMuted = true
-      video.playsInline = true
-    })
-
-    function playExampleVideos() {
-      exampleVideos.forEach(video => {
-        const playPromise = video.play()
-        if (playPromise) playPromise.catch(() => {})
-      })
-    }
-
-    playExampleVideos()
-    window.addEventListener('load', playExampleVideos)
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) playExampleVideos()
-    })
-    window.addEventListener('pointerdown', () => playExampleVideos(), { once: true })
+    const buttons = [document.getElementById('download'), document.getElementById('download-cta')]
+    const metas = [document.getElementById('meta'), document.getElementById('meta-cta')]
 
     function resolveRepository() {
       const host = window.location.hostname
@@ -473,7 +297,7 @@
     }
 
     async function download() {
-      buttons.forEach(button => { button.disabled = true })
+      buttons.forEach(button => { if (button) button.disabled = true })
       metas.forEach(node => { if (node) node.textContent = '正在准备下载…' })
       try {
         const installer = await findLatestInstaller()
@@ -483,48 +307,12 @@
         metas.forEach(node => { if (node) node.textContent = '暂时无法获取安装包，请稍后重试' })
       }
       finally {
-        buttons.forEach(button => { button.disabled = false })
+        buttons.forEach(button => { if (button) button.disabled = false })
       }
     }
 
-    buttons.forEach(button => button.addEventListener('click', download))
+    buttons.forEach(button => button?.addEventListener('click', download))
     loadStatus()
-
-    const dialog = document.getElementById('example-dialog')
-    const dialogTitle = document.getElementById('dialog-title')
-    const dialogPrompt = document.getElementById('dialog-prompt')
-    const applyPrompt = document.getElementById('apply-prompt')
-    let activePrompt = ''
-
-    document.querySelectorAll('.example-card').forEach(card => {
-      card.addEventListener('click', () => {
-        dialogTitle.textContent = card.dataset.title || ''
-        dialogPrompt.textContent = card.dataset.prompt || ''
-        activePrompt = card.dataset.prompt || ''
-        dialog.showModal()
-      })
-    })
-
-    document.getElementById('dialog-close').addEventListener('click', () => dialog.close())
-    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close() })
-
-    document.getElementById('copy-prompt').addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(activePrompt)
-        document.getElementById('copy-prompt').textContent = '已复制'
-        setTimeout(() => { document.getElementById('copy-prompt').textContent = '复制提示词' }, 1600)
-      }
-      catch {
-        document.getElementById('copy-prompt').textContent = '复制失败'
-      }
-    })
-
-    applyPrompt.addEventListener('click', () => {
-      dialog.close()
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-      const input = document.getElementById('download-hero')
-      if (input) input.focus()
-    })
   </script>
 </body>
 </html>
