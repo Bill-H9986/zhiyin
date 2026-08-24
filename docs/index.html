@@ -47,8 +47,20 @@
     .site-header .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; letter-spacing: 0.02em; }
     .brand-mark {
-      width: 38px; height: 38px; display: grid; place-items: center; border-radius: 14px;
-      color: #fff; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan)); font-size: 15px;
+      width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan));
+      box-shadow: 0 10px 24px rgb(124 58 237 / 22%);
+    }
+    .brand-logo {
+      width: 26px; height: 26px; display: block; filter: brightness(0) invert(1);
+    }
+    .hero-logo {
+      width: 58px; height: 58px; display: grid; place-items: center; margin-bottom: 22px;
+      border-radius: 18px; background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan));
+      box-shadow: 0 16px 34px rgb(124 58 237 / 26%);
+    }
+    .brand-logo-hero {
+      width: 32px; height: 32px;
     }
     .page-version {
       flex: 0 0 auto; padding: 5px 10px; border-radius: 999px;
@@ -176,8 +188,8 @@
 <body>
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">知</span><span>知音</span></a>
-      <span class="page-version" aria-label="当前页面版本">主页版 v3</span>
+      <a class="brand" href="#"><span class="brand-mark"><img class="brand-logo" src="./zhiyin-logo.svg" alt="" aria-hidden="true"></span><span>知音</span></a>
+      <span class="page-version" aria-label="当前页面版本">主页版 v4</span>
       <nav class="nav" aria-label="导航">
         <a href="#features">功能</a>
         <a href="#trust">为什么选知音</a>
@@ -191,6 +203,7 @@
     <section class="hero">
       <div class="wrap">
         <div>
+          <div class="hero-logo"><img class="brand-logo brand-logo-hero" src="./zhiyin-logo.svg" alt="知音 Logo"></div>
           <span class="eyebrow">AI 内容创作营销系统</span>
           <h1>一句需求，<br><span>创作、发布、经营</span>一次完成</h1>
           <p class="lead">AI 驱动的内容创作、多平台发布与 7×24 客户接待一站式平台。</p>
