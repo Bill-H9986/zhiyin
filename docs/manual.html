@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-CN" data-page-version="1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="知音图文使用手册：安装、AI 创作、多平台发布、客户接待、数据与知识库操作指南。">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <link rel="icon" type="image/png" href="./zhiyin-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>知音 · 图文使用手册</title>
+  <style>
+    :root {
+      --brand: #8b7cf6;
+      --brand-light: #a78bfa;
+      --ink: #0a0a0a;
+      --muted: #6b7280;
+      --faint: #9ca3af;
+      --surface: #f5f5f7;
+      --line: rgb(0 0 0 / 7%);
+      --font: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --ease: cubic-bezier(.33, 1, .68, 1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .shell { width: min(1080px, calc(100% - 40px)); margin: 0 auto; }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgb(255 255 255 / 88%);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: saturate(180%) blur(18px);
+    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 64px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+    .brand img { width: 34px; height: 34px; }
+    .header-links { display: flex; align-items: center; gap: 22px; }
+    .header-links a { color: var(--muted); font-size: 14px; font-weight: 600; transition: color 160ms var(--ease); }
+    .header-links a:hover { color: var(--ink); }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 38px; padding: 0 16px; border-radius: 999px;
+      color: #fff; background: linear-gradient(90deg, var(--brand), var(--brand-light));
+      box-shadow: 0 8px 22px rgb(139 124 246 / 22%);
+      font-size: 13px; font-weight: 700;
+    }
+    .cta:hover { transform: translateY(-1px); }
+
+    .hero { padding: clamp(56px, 8vw, 96px) 0 44px; text-align: center; }
+    .eyebrow {
+      display: inline-block; padding: 5px 12px; border-radius: 999px;
+      color: var(--brand); background: rgb(139 124 246 / 8%);
+      border: 1px solid rgb(139 124 246 / 22%);
+      font-size: 12px; font-weight: 700;
+    }
+    .hero h1 { margin: 18px 0 0; font-size: clamp(34px, 5vw, 60px); line-height: 1.05; letter-spacing: -0.04em; font-weight: 800; }
+    .hero p { max-width: 680px; margin: 16px auto 0; color: var(--muted); font-size: 16px; }
+
+    .section { padding: 48px 0; }
+    .section-head { max-width: 700px; }
+    .section-kicker {
+      margin: 0 0 8px; color: var(--brand); font-size: 13px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+    .section h2 { margin: 0; font-size: clamp(26px, 4vw, 38px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 800; }
+    .section .desc { margin: 12px 0 0; color: var(--muted); font-size: 16px; }
+
+    .manual-block {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;
+      margin-top: 28px; padding: 28px; border-radius: 24px; background: var(--surface);
+    }
+    .manual-block.reverse { direction: rtl; }
+    .manual-block.reverse > * { direction: ltr; }
+    .manual-copy h3 { margin: 0; font-size: 22px; letter-spacing: -0.02em; font-weight: 800; }
+    .manual-copy ol { margin: 14px 0 0; padding-left: 20px; color: var(--muted); font-size: 15px; }
+    .manual-copy li { margin: 6px 0; }
+    .manual-img { border-radius: 18px; overflow: hidden; box-shadow: 0 18px 44px rgb(20 10 60 / 14%); }
+    .manual-img img { width: 100%; }
+
+    .faq { margin-top: 28px; display: grid; gap: 14px; }
+    .faq-item { padding: 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+    .faq-item strong { display: block; margin-bottom: 6px; font-size: 16px; }
+    .faq-item p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .footer { padding: 28px 0 42px; color: var(--faint); text-align: center; font-size: 13px; }
+    .footer a { color: var(--brand); }
+
+    @media (max-width: 860px) {
+      .manual-block, .manual-block.reverse { grid-template-columns: 1fr; direction: ltr; }
+      .manual-img { order: 2; }
+    }
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 28px, 1080px); }
+      .header-inner { height: 58px; }
+      .header-links a:not(.cta) { display: none; }
+      .manual-block { padding: 20px; }
+      .section { padding: 38px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="./index.html"><img src="./zhiyin-logo.png" alt=""><span>知音</span></a>
+      <nav class="header-links" aria-label="头部导航">
+        <a href="./index.html">返回主页</a>
+        <a href="#install">快速开始</a>
+        <a href="#features">核心功能</a>
+        <a href="#faq">常见问题</a>
+        <a class="cta" href="./index.html#download-section">下载知音</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell">
+        <span class="eyebrow">帮助中心</span>
+        <h1>知音 · 图文使用手册</h1>
+        <p>从安装到 AI 创作、多平台发布、客户接待与数据管理，跟着图文一步步上手。</p>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="shell">
+        <div class="section-head">
+          <p class="section-kicker">快速开始</p>
+          <h2>下载、安装、启动</h2>
+          <p class="desc">安装包已包含本地运行所需组件，无需手动安装数据库或环境变量。</p>
+        </div>
+        <div class="manual-block">
+          <div class="manual-copy">
+            <h3>第一步：获取并安装</h3>
+            <ol>
+              <li>打开首页点击「下载知音」。</li>
+              <li>双击安装包，Windows 提示「已保护你的电脑」时选择「更多信息 → 仍要运行」。</li>
+              <li>安装完成后从桌面打开知音。</li>
+              <li>应用会自动完成基础数据初始化，稍等片刻即可进入主页。</li>
+            </ol>
+          </div>
+          <div class="manual-img"><img src="./assets/manual/home.png" alt="知音首页截图"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="shell">
+        <div class="section-head">
+          <p class="section-kicker">核心功能</p>
+          <h2>一句话，从创作到发布</h2>
+          <p class="desc">右侧输入框那句需求，AI 会帮你生成文案、图片、视频草稿，并持续推进任务。</p>
+        </div>
+
+        <div class="manual-block reverse">
+          <div class="manual-copy">
+            <h3>AI 内容创作</h3>
+            <ol>
+              <li>在首页输入框描述你的需求，例如「做一条美食探店短视频」。</li>
+              <li>点击发送，任务进入「内容创作」页。</li>
+              <li>实时查看 AI 生成进度与草稿。</li>
+              <li>可继续多轮修改，或直接进入发布流程。</li>
+            </ol>
+          </div>
+          <div class="manual-img"><img src="./assets/manual/draft-box.png" alt="内容创作截图"></div>
+        </div>
+
+        <div class="manual-block">
+          <div class="manual-copy">
+            <h3>热点内容 &amp; AI 互动</h3>
+            <ol>
+              <li>「热点内容」帮你发现当下流行的选题与素材。</li>
+              <li>「AI 互动」汇总评论与私信，自动生成回复建议。</li>
+              <li>可按需切换「自动接待」或「人工介入」。</li>
+            </ol>
+          </div>
+          <div class="manual-img"><img src="./assets/manual/hot-content.png" alt="热点内容截图"></div>
+        </div>
+
+        <div class="manual-block reverse">
+          <div class="manual-copy">
+            <h3>数据与作品管理</h3>
+            <ol>
+              <li>进入「数据统计」查看作品数据与趋势。</li>
+              <li>「任务记录」保存历史任务，可随时回看或继续处理。</li>
+              <li>作品与发布记录均在本地留档。</li>
+            </ol>
+          </div>
+          <div class="manual-img"><img src="./assets/manual/data-statistics.png" alt="数据统计截图"></div>
+        </div>
+
+        <div class="manual-block">
+          <div class="manual-copy">
+            <h3>知识库</h3>
+            <ol>
+              <li>把常用资料、规则与素材存入「知识库」。</li>
+              <li>AI 创作时会优先参考这些内容，让输出更贴合你的账号。</li>
+              <li>首次启动已内置基础知识，可随时补充。</li>
+            </ol>
+          </div>
+          <div class="manual-img"><img src="./assets/manual/knowledge.png" alt="知识库截图"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="shell">
+        <div class="section-head">
+          <p class="section-kicker">常见问题</p>
+          <h2>你可能想知道</h2>
+        </div>
+        <div class="faq">
+          <div class="faq-item"><strong>需要安装数据库或环境变量吗？</strong><p>不需要。知音安装包已内置本地运行所需组件，下载安装后即可使用。</p></div>
+          <div class="faq-item"><strong>Windows 提示“已保护你的电脑”怎么办？</strong><p>点击「更多信息」→「仍要运行」即可正常安装。</p></div>
+          <div class="faq-item"><strong>后续版本如何更新？</strong><p>安装后，知音会在后台检查并下载新版本，下载完成后再由你选择「现在安装」或「稍后」。</p></div>
+          <div class="faq-item"><strong>为什么第一次打开稍慢？</strong><p>首次启动需要初始化本地服务，通常 1-3 分钟；之后会明显加快。</p></div>
+          <div class="faq-item"><strong>数据保存在哪里？</strong><p>账号与作品数据保存在你的电脑本地，不依赖额外服务器。</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">知音 · 图文使用手册 · <a href="./index.html">返回主页</a></div>
+  </footer>
+</body>
+</html>
