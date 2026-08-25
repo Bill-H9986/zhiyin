@@ -103,26 +103,35 @@
     }
     .hero h1 {
       margin: 22px 0 0;
-      font-size: clamp(44px, 7vw, 86px);
-      line-height: 1.02;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
       letter-spacing: -0.045em;
       font-weight: 800;
       text-shadow: 0 6px 30px rgb(139 124 246 / 10%);
     }
-    .hero h1 span {
-      white-space: nowrap;
+    .hero h1 .title-line { display: block; line-height: 1.05; }
+    .hero h1 .title-black { color: var(--ink); }
+    .hero h1 .title-black-top {
+      font-size: clamp(30px, 4.5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .hero h1 .title-gradient {
+      font-size: clamp(44px, 7vw, 86px);
       background: linear-gradient(100deg, var(--brand), var(--brand-light));
       background-clip: text;
       color: transparent;
     }
-    .hero h1 .title-accent {
+    .hero h1 .title-black-bottom {
       position: relative;
-      display: inline-block;
-      background: var(--ink);
-      background-clip: text;
-      color: transparent;
+      font-size: clamp(32px, 4.8vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--ink);
     }
-    .hero h1 .title-accent::after {
+    .hero h1 .title-black-bottom::after {
       content: "";
       position: absolute;
       left: 0;
@@ -399,7 +408,6 @@
       .primary-btn, .secondary-btn, .nav-cta, .bento-card, .example-card { cursor: pointer; }
     }
     @media (max-width: 900px) {
-      .hero h1 span { white-space: normal; }
       .bento-grid { grid-template-columns: repeat(2, 1fr); }
       .bento-card.large { grid-column: span 2; }
       .examples-grid { grid-template-columns: repeat(2, 1fr); }
@@ -410,7 +418,10 @@
     @media (max-width: 620px) {
       .shell { padding: 0 18px; }
       .header-inner { height: 58px; }
-      .hero h1 { font-size: clamp(38px, 12vw, 58px); }
+      .hero h1 { gap: 6px; }
+      .hero h1 .title-gradient { font-size: clamp(34px, 12vw, 60px); }
+      .hero h1 .title-black-top { font-size: clamp(22px, 7.5vw, 38px); }
+      .hero h1 .title-black-bottom { font-size: clamp(24px, 8.5vw, 42px); }
       .hero-actions { width: 100%; }
       .primary-btn, .secondary-btn { width: 100%; max-width: 340px; }
       .bento-grid { grid-template-columns: 1fr; }
@@ -444,7 +455,11 @@
       <div class="shell">
         <div class="hero-copy reveal">
           <span class="hero-kicker">AI 内容创作营销系统</span>
-          <h1>一句需求，<br><span>创作、发布、经营<span class="title-accent">一次完成</span></span></h1>
+          <h1>
+            <span class="title-line title-black title-black-top">一句需求，</span>
+            <span class="title-line title-gradient">创作、发布、经营</span>
+            <span class="title-line title-black title-black-bottom">一次完成</span>
+          </h1>
           <p class="hero-sub">AI 驱动的内容创作、多平台发布与 7×24 客户接待一站式平台。</p>
           <p class="hero-hint">面向零基础用户，安装后无需配置环境，打开即可使用。</p>
           <p class="hero-meta">AI 驱动 · 多平台发布 · 本地数据 · 自动更新</p>
