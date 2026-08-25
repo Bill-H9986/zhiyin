@@ -87,7 +87,7 @@
     .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgb(139 124 246 / 30%); }
 
     .hero { padding: clamp(72px, 9vw, 112px) 0 0; }
-    .hero-copy { max-width: 920px; margin: 0 auto; text-align: center; }
+    .hero-copy { max-width: 1080px; margin: 0 auto; text-align: center; }
     .hero-kicker {
       display: inline-flex;
       align-items: center;
@@ -107,11 +107,31 @@
       line-height: 1.02;
       letter-spacing: -0.045em;
       font-weight: 800;
+      text-shadow: 0 6px 30px rgb(139 124 246 / 10%);
     }
     .hero h1 span {
+      white-space: nowrap;
       background: linear-gradient(100deg, var(--brand), var(--brand-light));
       background-clip: text;
       color: transparent;
+    }
+    .hero h1 .title-accent {
+      position: relative;
+      display: inline-block;
+      background: var(--ink);
+      background-clip: text;
+      color: transparent;
+    }
+    .hero h1 .title-accent::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-light));
+      box-shadow: 0 8px 20px rgb(139 124 246 / 22%);
     }
     .hero-sub {
       max-width: 650px;
@@ -379,6 +399,7 @@
       .primary-btn, .secondary-btn, .nav-cta, .bento-card, .example-card { cursor: pointer; }
     }
     @media (max-width: 900px) {
+      .hero h1 span { white-space: normal; }
       .bento-grid { grid-template-columns: repeat(2, 1fr); }
       .bento-card.large { grid-column: span 2; }
       .examples-grid { grid-template-columns: repeat(2, 1fr); }
@@ -423,7 +444,7 @@
       <div class="shell">
         <div class="hero-copy reveal">
           <span class="hero-kicker">AI 内容创作营销系统</span>
-          <h1>一句需求，<br><span>创作、发布、经营</span>一次完成</h1>
+          <h1>一句需求，<br><span>创作、发布、经营<span class="title-accent">一次完成</span></span></h1>
           <p class="hero-sub">AI 驱动的内容创作、多平台发布与 7×24 客户接待一站式平台。</p>
           <p class="hero-hint">面向零基础用户，安装后无需配置环境，打开即可使用。</p>
           <p class="hero-meta">AI 驱动 · 多平台发布 · 本地数据 · 自动更新</p>
