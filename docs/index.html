@@ -100,6 +100,18 @@
     .h-c { font-size: clamp(26px, 3vw, 42px); font-weight: 650; }
     .hero-sub { margin-top: 24px; max-width: 480px; color: var(--dim); font-size: 16px; line-height: 1.8; }
     .hero-cta { display: flex; gap: 14px; margin-top: 38px; flex-wrap: wrap; }
+    .dl-lines { margin-top: 14px; display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .dl-label { color: var(--dim); font-size: 12px; letter-spacing: .04em; }
+    .line-btn {
+      border: 1px solid var(--line); background: #fff; color: var(--dim);
+      border-radius: 999px; padding: 6px 13px; font-size: 12px; cursor: pointer;
+      transition: all .18s ease;
+    }
+    .line-btn:hover { border-color: rgb(139 124 246 / 45%); color: var(--brand); }
+    .line-btn.active {
+      border-color: rgb(139 124 246 / 45%); color: var(--brand);
+      background: rgb(139 124 246 / 8%); font-weight: 650;
+    }
     .mini-stats { display: flex; gap: 26px; margin-top: 44px; flex-wrap: wrap; }
     .ms b { font-size: 19px; font-weight: 750; letter-spacing: -.01em; }
     .ms span { display: block; margin-top: 3px; color: var(--faint); font-size: 12px; letter-spacing: .06em; }
@@ -304,7 +316,14 @@
         <button class="btn btn-p btn-xl" id="download-hero" type="button">免费下载</button>
         <a class="btn btn-g btn-xl" href="#flow">看看工作流 ↓</a>
       </div>
-      <div class="version-status" id="meta" aria-live="polite">正在获取最新版本…</div>
+  <div class="version-status" id="meta" aria-live="polite">正在获取最新版本…</div>
+  <div class="dl-lines" aria-label="下载线路">
+    <span class="dl-label">下载线路</span>
+    <button class="line-btn active" type="button" data-line="official">官方</button>
+    <button class="line-btn" type="button" data-line="proxy1">加速一</button>
+    <button class="line-btn" type="button" data-line="proxy2">加速二</button>
+    <button class="line-btn" type="button" data-line="proxy3">加速三</button>
+  </div>
       <div class="mini-stats">
         <div class="ms"><b>1 句话</b><span>生成完整方案</span></div>
         <div class="ms"><b>3+ 平台</b><span>同步分发</span></div>
@@ -432,7 +451,14 @@
     <h2 style="margin-top:26px;">把知音<br>装进电脑</h2>
     <p>Windows 10 / 11 · 下载安装即可使用，后续自动更新。</p>
     <button class="btn btn-p btn-xl" id="download-cta" type="button">下载知音 ↓</button>
-    <div class="version-status" id="meta-cta" aria-live="polite"></div>
+  <div class="version-status" id="meta-cta" aria-live="polite"></div>
+  <div class="dl-lines" aria-label="下载线路">
+    <span class="dl-label">下载线路</span>
+    <button class="line-btn active" type="button" data-line="official">官方</button>
+    <button class="line-btn" type="button" data-line="proxy1">加速一</button>
+    <button class="line-btn" type="button" data-line="proxy2">加速二</button>
+    <button class="line-btn" type="button" data-line="proxy3">加速三</button>
+  </div>
   </section>
 
   <footer>知音 · AI 内容创作与多平台营销助手</footer>
@@ -481,6 +507,18 @@
 
     function formatSize(bytes) { return Math.round(bytes / 1024 / 1024) + ' MB' }
 
+    let currentLine = 'official'
+    function mirrorFor(base) {
+      if (!base) return ''
+      const list = {
+        official: base,
+        proxy1: 'https://gh-proxy.com/' + base,
+        proxy2: 'https://ghfast.top/' + base,
+        proxy3: 'https://ghproxy.net/' + base,
+      }
+      return list[currentLine] || base
+    }
+
     async function findLatestInstaller() {
       const response = await fetch('https://api.github.com/repos/' + resolveRepository() + '/releases/latest')
       if (!response.ok) throw new Error('release ' + response.status)
@@ -505,7 +543,7 @@
       metas.forEach(node => { if (node) node.textContent = '正在准备下载…' })
       try {
         const installer = await findLatestInstaller()
-        window.location.href = installer.browser_download_url
+        window.location.href = mirrorFor(installer.browser_download_url)
       }
       catch {
         metas.forEach(node => { if (node) node.textContent = '暂时无法获取安装包，请稍后重试' })
@@ -516,6 +554,11 @@
     }
 
     buttons.forEach(button => button.addEventListener('click', download))
+    const lineButtons = Array.from(document.querySelectorAll('.line-btn'))
+    lineButtons.forEach(btn => btn.addEventListener('click', () => {
+      currentLine = btn.dataset.line || 'official'
+      lineButtons.forEach(b => b.classList.toggle('active', b === btn))
+    }))
     loadStatus()
 
     // flow scrollytelling
