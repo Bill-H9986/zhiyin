@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="zh-CN" data-page-version="21">
+﻿<!doctype html>
+<html lang="zh-CN" data-page-version="22">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,216 +16,251 @@
     :root {
       --brand: #8b7cf6;
       --brand-light: #a78bfa;
-      --brand-pale: #c9befc;
-      --bg: #060609;
-      --panel: rgb(255 255 255 / 4%);
-      --panel-line: rgb(255 255 255 / 9%);
-      --txt: #f5f5f7;
-      --txt-dim: rgb(235 235 245 / 62%);
-      --txt-faint: rgb(235 235 245 / 38%);
+      --pale: #c9befc;
+      --bg: #fafafc;
+      --line: rgb(0 0 0 / 8%);
+      --panel: #ffffff;
+      --txt: #16161a;
+      --dim: #5b5e66;
+      --faint: #9a9aa2;
       --font: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
       --ease: cubic-bezier(.22, 1, .36, 1);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--txt);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--txt);
+      line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
     button { font: inherit; cursor: pointer; }
     img, video { display: block; max-width: 100%; }
-
-    ::selection { background: rgb(139 124 246 / 40%); }
+    ::selection { background: rgb(139 124 246 / 45%); }
     ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-thumb { background: rgb(255 255 255 / 14%); border-radius: 8px; border: 3px solid var(--bg); }
-    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cfcede; border-radius: 8px; border: 3px solid var(--bg); }
 
-    #bar { position: fixed; inset: 0 auto auto 0; height: 2px; width: 0; z-index: 200;
-      background: linear-gradient(90deg, var(--brand), var(--brand-pale));
-      box-shadow: 0 0 14px rgb(139 124 246 / 80%); }
+    #bar { position: fixed; inset: 0 auto auto 0; height: 2px; width: 0; z-index: 300;
+      background: linear-gradient(90deg, var(--brand), var(--pale)); box-shadow: 0 0 16px rgb(139 124 246 / 80%); }
 
-    .shell { width: min(1200px, calc(100% - 48px)); margin-inline: auto; }
-
-    /* ---------- nav ---------- */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 150;
-      background: rgb(10 10 16 / 62%);
-      backdrop-filter: saturate(170%) blur(22px);
-      -webkit-backdrop-filter: saturate(170%) blur(22px);
-      border-bottom: 1px solid rgb(255 255 255 / 7%); }
-    .nav-inner { display: flex; align-items: center; gap: 30px; height: 64px; }
-    .logo { display: flex; align-items: center; gap: 11px; font-weight: 750; font-size: 17px; letter-spacing: -.01em; }
-    .logo img { width: 32px; height: 32px; border-radius: 9px; box-shadow: 0 0 22px rgb(139 124 246 / 45%); }
-    .nav-links { display: flex; gap: 26px; margin-left: 12px; }
-    .nav-links a { font-size: 13.5px; color: var(--txt-dim); transition: color .25s var(--ease); letter-spacing: .02em; }
-    .nav-links a:hover { color: var(--txt); }
-    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
-    .nav-ver { font-size: 11.5px; color: var(--txt-faint); border: 1px solid var(--panel-line); padding: 5px 13px; border-radius: 999px; letter-spacing: .06em; }
+    /* ===== top nav ===== */
+    .nav { position: fixed; inset: 0 0 auto 0; z-index: 200;
+      background: rgb(250 250 252 / 74%); backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%); border-bottom: 1px solid var(--line); }
+    .nav-in { width: min(1280px, calc(100% - 48px)); margin: auto; height: 58px;
+      display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 11px; font-weight: 750; font-size: 16.5px; }
+    .logo img { width: 26px; height: 26px; border-radius: 7px; box-shadow: 0 4px 16px rgb(139 124 246 / 35%); }
+    .nav-r { display: flex; align-items: center; gap: 16px; }
+    .pill { font-size: 11px; color: var(--faint); border: 1px solid var(--line);
+      padding: 5px 12px; border-radius: 999px; letter-spacing: .08em; }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      border-radius: 999px; font-weight: 700; white-space: nowrap;
-      transition: transform .3s var(--ease), box-shadow .3s var(--ease), background-color .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease); }
-    .btn-primary { color: #fff; background: linear-gradient(92deg, var(--brand) 0%, var(--brand-light) 100%);
-      box-shadow: 0 10px 34px rgb(139 124 246 / 42%), inset 0 1px 0 rgb(255 255 255 / 28%); }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 46px rgb(139 124 246 / 55%); }
-    .btn-primary:active { transform: scale(.97); }
-    .btn-primary:disabled { opacity: .6; cursor: wait; }
-    .btn-ghost { color: var(--txt); border: 1px solid rgb(255 255 255 / 16%); background: rgb(255 255 255 / 3%); }
-    .btn-ghost:hover { border-color: rgb(139 124 246 / 60%); color: var(--brand-pale); transform: translateY(-2px); }
-    .btn-lg { min-height: 56px; padding: 0 34px; font-size: 15.5px; }
-    .btn-nav { min-height: 38px; padding: 0 19px; font-size: 13px; }
+      border-radius: 999px; font-weight: 700; white-space: nowrap; cursor: pointer;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease),
+        background-color .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease), opacity .3s var(--ease); }
+    .btn-p { color: #fff; border: 0;
+      background: linear-gradient(92deg, var(--brand), var(--brand-light));
+      box-shadow: 0 12px 36px rgb(139 124 246 / 40%), inset 0 1px 0 rgb(255 255 255 / 26%); }
+    .btn-p:hover { transform: translateY(-2px); box-shadow: 0 20px 52px rgb(139 124 246 / 55%); }
+    .btn-p:active { transform: scale(.97); }
+    .btn-p:disabled { opacity: .6; cursor: wait; }
+    .btn-g { color: var(--txt); border: 1px solid rgb(0 0 0 / 15%); background: #fff; }
+    .btn-g:hover { border-color: rgb(139 124 246 / 60%); color: var(--brand); transform: translateY(-2px); }
+    .btn-sm { min-height: 38px; padding: 0 20px; font-size: 13px; }
+    .btn-xl { min-height: 58px; padding: 0 38px; font-size: 16px; }
 
-    /* ---------- hero ---------- */
-    .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column;
-      justify-content: center; align-items: center; text-align: center;
-      padding: clamp(130px, 18vh, 190px) 24px 90px; overflow: hidden; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
-    .orb-a { width: 900px; height: 900px; top: -420px; left: 50%; transform: translateX(-88%);
-      background: radial-gradient(circle, rgb(139 124 246 / 34%) 0%, transparent 65%); }
-    .orb-b { width: 760px; height: 760px; top: -300px; left: 50%; transform: translateX(14%);
-      background: radial-gradient(circle, rgb(167 139 250 / 26%) 0%, transparent 65%); }
-    .orb-c { width: 520px; height: 520px; bottom: -260px; left: 50%; transform: translateX(-50%);
-      background: radial-gradient(circle, rgb(201 190 252 / 16%) 0%, transparent 65%); }
-    .grid-lines { position: absolute; inset: 0; pointer-events: none; opacity: .5;
-      background-image: linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px),
-        linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px);
-      background-size: 72px 72px;
-      mask-image: radial-gradient(ellipse 90% 70% at 50% 38%, #000 30%, transparent 75%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 38%, #000 30%, transparent 75%); }
-    .hero > * { position: relative; z-index: 2; }
+    /* ===== side dots ===== */
+    .dots { position: fixed; right: 26px; top: 50%; translate: 0 -50%; z-index: 180;
+      display: flex; flex-direction: column; gap: 16px; }
+    .dots a { position: relative; width: 9px; height: 9px; border-radius: 50%;
+      background: rgb(0 0 0 / 22%); transition: background .3s, box-shadow .3s, transform .3s; }
+    .dots a:hover, .dots a.on { background: var(--brand-light);
+      box-shadow: 0 0 0 5px rgb(139 124 246 / 18%), 0 0 16px rgb(139 124 246 / 80%); transform: scale(1.15); }
+    .dots a span { position: absolute; right: 22px; top: 50%; translate: 0 -50%;
+      font-size: 11px; letter-spacing: .12em; color: var(--dim); white-space: nowrap;
+      opacity: 0; transition: opacity .25s, translate .25s; pointer-events: none; }
+    .dots a:hover span, .dots a.on span { opacity: 1; translate: -4px -50%; }
 
-    .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px;
-      border: 1px solid rgb(139 124 246 / 38%); border-radius: 999px;
-      background: rgb(139 124 246 / 10%);
-      font-size: 12.5px; font-weight: 650; letter-spacing: .22em; color: var(--brand-pale);
-      text-transform: uppercase; }
-    .eyebrow i { width: 7px; height: 7px; border-radius: 50%;
-      background: var(--brand-light); box-shadow: 0 0 12px rgb(167 139 250 / 90%); }
-    .hero h1 { margin-top: 34px; display: flex; flex-direction: column; gap: 6px;
+    /* ===== hero : split screen ===== */
+    .hero { position: relative; min-height: 100vh; display: grid;
+      grid-template-columns: 1.04fr .96fr; align-items: center; gap: clamp(30px, 5vw, 70px);
+      width: min(1300px, calc(100% - 88px)); margin-inline: auto; padding: 120px 0 70px; }
+    .hero::before { content: ""; position: absolute; width: 900px; height: 900px; border-radius: 50%;
+      top: -380px; left: -220px; background: radial-gradient(circle, rgb(139 124 246 / 16%), transparent 65%);
+      filter: blur(90px); pointer-events: none; }
+    .kick { display: inline-flex; align-items: center; gap: 9px; padding: 7px 16px;
+      border: 1px solid rgb(139 124 246 / 40%); border-radius: 999px; color: var(--brand);
+      background: rgb(139 124 246 / 9%); font-size: 12px; font-weight: 650;
+      letter-spacing: .2em; text-transform: uppercase; }
+    .kick i { width: 6px; height: 6px; border-radius: 50%; background: var(--brand-light);
+      box-shadow: 0 0 10px var(--brand-light); }
+    .hero-copy h1 { margin-top: 26px; display: flex; flex-direction: column; gap: 4px;
       font-weight: 800; letter-spacing: -.03em; }
-    .h1-top { font-size: clamp(26px, 3.6vw, 44px); font-weight: 600; color: var(--txt-dim); letter-spacing: -.01em; }
-    .h1-main { font-size: clamp(56px, 10vw, 132px); line-height: .98;
-      background: linear-gradient(96deg, #fff 0%, var(--brand-pale) 42%, var(--brand) 78%, var(--brand-light) 100%);
+    .h-a { font-size: clamp(24px, 2.6vw, 34px); font-weight: 550; color: var(--dim); letter-spacing: 0; }
+    .h-b { font-size: clamp(54px, 6.6vw, 96px); line-height: 1.02;
+      background: linear-gradient(95deg, var(--brand) 0%, var(--brand-light) 52%, #b3a4ff 100%);
       background-clip: text; -webkit-background-clip: text; color: transparent; }
-    .h1-tail { font-size: clamp(30px, 4.6vw, 58px); font-weight: 650; color: var(--txt); letter-spacing: -.02em; }
-    .hero-sub { max-width: 640px; margin: 30px auto 0; color: var(--txt-dim);
-      font-size: clamp(16px, 2vw, 19.5px); line-height: 1.75; }
-    .hero-actions { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 44px; }
-    .version-status { margin-top: 20px; min-height: 20px; color: var(--txt-faint); font-size: 13px; letter-spacing: .04em; }
-    .scroll-hint { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-      color: var(--txt-faint); font-size: 11px; letter-spacing: .34em; text-transform: uppercase;
-      display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .scroll-hint::after { content: ""; width: 1px; height: 44px;
-      background: linear-gradient(180deg, rgb(255 255 255 / 35%), transparent); }
+    .h-c { font-size: clamp(26px, 3vw, 42px); font-weight: 650; }
+    .hero-sub { margin-top: 24px; max-width: 480px; color: var(--dim); font-size: 16px; line-height: 1.8; }
+    .hero-cta { display: flex; gap: 14px; margin-top: 38px; flex-wrap: wrap; }
+    .mini-stats { display: flex; gap: 26px; margin-top: 44px; flex-wrap: wrap; }
+    .ms b { font-size: 19px; font-weight: 750; letter-spacing: -.01em; }
+    .ms span { display: block; margin-top: 3px; color: var(--faint); font-size: 12px; letter-spacing: .06em; }
 
-    /* ---------- marquee ---------- */
-    .marquee { border-block: 1px solid rgb(255 255 255 / 8%); padding: 20px 0; overflow: hidden;
-      background: rgb(255 255 255 / 2%); }
-    .marquee-track { display: flex; gap: 54px; width: max-content; animation: slide 30s linear infinite; }
-    .marquee-track span { display: flex; align-items: center; gap: 54px; white-space: nowrap;
-      color: var(--txt-faint); font-size: 13px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; }
-    .marquee-track em { font-style: normal; color: var(--brand); }
-    @keyframes slide { to { transform: translateX(-50%); } }
+    /* device */
+    .stage { perspective: 1400px; }
+    .device { position: relative; border-radius: 24px; border: 1px solid rgb(255 255 255 / 12%);
+      background: linear-gradient(160deg, #ffffff 0%, #f5f4fc 70%);
+      box-shadow: -40px 60px 120px -34px rgb(76 64 148 / 32%), inset 0 0 0 1px rgb(139 124 246 / 10%),
+        0 0 80px rgb(139 124 246 / 10%);
+      transform: rotateY(-11deg) rotateX(5deg) rotate(.4deg);
+      transition: transform .8s var(--ease); }
+    .stage:hover .device { transform: rotateY(-4deg) rotateX(2deg); }
+    .device::after { content: ""; position: absolute; inset: -1px; border-radius: 25px; pointer-events: none;
+      background: linear-gradient(115deg, rgb(201 190 252 / 28%) 0%, transparent 32%, transparent 68%, rgb(139 124 246 / 18%) 100%); }
+    .d-bar { display: flex; gap: 7px; padding: 13px 14px 0; }
+    .d-bar i { width: 9px; height: 9px; border-radius: 50%; }
+    .d-bar i:nth-child(1) { background: #ff5f57; } .d-bar i:nth-child(2) { background: #febc2e; } .d-bar i:nth-child(3) { background: #28c840; }
+    .d-body { display: grid; grid-template-columns: 58px 1fr; gap: 13px; padding: 14px; }
+    .d-side { display: flex; flex-direction: column; gap: 9px; padding: 11px 9px;
+      border-radius: 13px; background: #f3f2fa; }
+    .d-side i { height: 26px; border-radius: 8px; background: #eae8f5; }
+    .d-side i:first-child { background: linear-gradient(135deg, var(--brand), var(--brand-light)); box-shadow: 0 4px 16px rgb(139 124 246 / 50%); }
+    .d-main { display: flex; flex-direction: column; gap: 11px; }
+    .d-input { display: flex; align-items: center; gap: 9px; padding: 11px 14px;
+      border: 1px solid rgb(139 124 246 / 35%); border-radius: 12px; background: rgb(139 124 246 / 8%); }
+    .d-input em { font-style: normal; font-size: 11.5px; color: var(--dim); }
+    .caret { width: 2px; height: 14px; background: var(--brand-light); animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .d-chat { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 9px;
+      padding: 13px; border-radius: 13px; background: #f3f2fa; min-height: 208px; }
+    .bub { max-width: 78%; min-height: 30px; border-radius: 11px; background: #ecebf7;
+      animation: rise 6.5s var(--ease) infinite; }
+    .bub.u { align-self: flex-end; width: 46%; background: linear-gradient(92deg, var(--brand), var(--brand-light)); }
+    .bub.b2 { animation-delay: .55s; } .bub.b3 { animation-delay: 1.1s; width: 60%; }
+    .bub.typing { width: 74px; display: flex; gap: 4px; align-items: center; justify-content: center;
+      animation-delay: 1.65s; }
+    .typing i { width: 5px; height: 5px; border-radius: 50%; background: var(--pale); animation: tp .9s ease-in-out infinite; }
+    .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+    @keyframes rise { 0% { opacity: 0; transform: translateY(12px) scale(.97); }
+      7%,84% { opacity: 1; transform: none; } 93%,100% { opacity: 0; transform: translateY(-6px); } }
+    @keyframes tp { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+    .d-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .d-tools i { height: 34px; border-radius: 10px; border: 1px solid var(--line); background: #fafafd; }
 
-    /* ---------- sections ---------- */
-    .sec { padding: clamp(96px, 13vw, 168px) 0 0; }
-    .sec-head { max-width: 800px; margin: 0 auto clamp(52px, 6vw, 84px); text-align: center; }
-    .sec-tag { display: inline-flex; align-items: center; gap: 10px; color: var(--brand-pale);
-      font-size: 12px; font-weight: 700; letter-spacing: .32em; text-transform: uppercase; }
-    .sec-tag::before, .sec-tag::after { content: ""; width: 28px; height: 1px;
-      background: linear-gradient(90deg, transparent, rgb(139 124 246 / 70%)); }
-    .sec-tag::after { background: linear-gradient(90deg, rgb(139 124 246 / 70%), transparent); }
-    .sec-head h2 { margin-top: 20px; font-size: clamp(34px, 5.4vw, 62px); line-height: 1.05;
+    /* ===== generic section head ===== */
+    .wrap { width: min(1280px, calc(100% - 88px)); margin-inline: auto; }
+    .tag { display: inline-flex; align-items: center; gap: 12px; color: var(--brand-pale);
+      font-size: 12px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; }
+    .tag::before { content: ""; width: 30px; height: 1px; background: var(--brand); box-shadow: 0 0 10px var(--brand); }
+    .h2 { margin-top: 18px; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.06;
       letter-spacing: -.035em; font-weight: 800; }
-    .sec-head p { margin: 20px auto 0; max-width: 600px; color: var(--txt-dim); font-size: 16.5px; line-height: 1.75; }
+    .lead { margin-top: 18px; max-width: 560px; color: var(--dim); font-size: 16px; line-height: 1.8; }
 
-    /* ---------- stats ---------- */
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .stat { position: relative; padding: 34px 26px 30px; border: 1px solid var(--panel-line);
-      border-radius: 22px; background: var(--panel); overflow: hidden; }
-    .stat::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgb(139 124 246 / 60%), transparent); }
-    .stat b { display: block; font-size: clamp(34px, 4vw, 52px); font-weight: 800; letter-spacing: -.03em;
-      background: linear-gradient(180deg, #fff, var(--brand-pale)); background-clip: text; color: transparent; }
-    .stat span { display: block; margin-top: 10px; color: var(--txt-dim); font-size: 13.5px; }
+    /* ===== scrollytelling flow ===== */
+    .flowsec { display: grid; grid-template-columns: 430px 1fr; gap: clamp(40px, 6vw, 110px);
+      width: min(1280px, calc(100% - 88px)); margin-inline: auto; padding: clamp(110px, 14vw, 180px) 0 0; }
+    .flow-left { position: sticky; top: 130px; align-self: start; }
+    .steps { margin-top: 40px; display: flex; flex-direction: column; gap: 6px; }
+    .step { display: flex; gap: 16px; padding: 17px 18px; border-radius: 16px;
+      border: 1px solid transparent; transition: all .4s var(--ease); opacity: .45; }
+    .step.on { opacity: 1; background: rgb(139 124 246 / 8%); border-color: rgb(139 124 246 / 35%); }
+    .step .n { font-size: 12px; font-weight: 800; color: var(--faint); font-variant-numeric: tabular-nums;
+      padding-top: 3px; transition: color .4s; }
+    .step.on .n { color: var(--brand-light); }
+    .step b { display: block; font-size: 15.5px; font-weight: 650; }
+    .step p { margin-top: 5px; font-size: 13px; color: var(--dim); line-height: 1.6; }
+    .panels { display: flex; flex-direction: column; gap: 26px; }
+    .panel { position: relative; min-height: 430px; border-radius: 28px; border: 1px solid var(--line);
+      background: #ffffff;
+      padding: 44px 46px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+      transition: border-color .5s var(--ease), box-shadow .5s var(--ease); }
+    .panel.lit { border-color: rgb(139 124 246 / 45%);
+      box-shadow: 0 30px 90px -30px rgb(139 124 246 / 30%); }
+    .panel .ghost { position: absolute; top: 18px; right: 30px; font-size: 130px; font-weight: 800;
+      line-height: 1; letter-spacing: -.05em; color: transparent;
+      -webkit-text-stroke: 1px rgb(0 0 0 / 9%); pointer-events: none; }
+    .panel h3 { font-size: 27px; letter-spacing: -.02em; }
+    .panel > div > p { margin-top: 14px; color: var(--dim); font-size: 15px; line-height: 1.8; max-width: 480px; }
+    .panel-foot { display: flex; gap: 9px; flex-wrap: wrap; }
+    .chip { font-size: 12px; color: var(--brand); padding: 6px 14px; border-radius: 999px;
+      border: 1px solid rgb(139 124 246 / 35%); background: rgb(139 124 246 / 8%); }
+    .viz { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
+    .viz i { display: block; height: 10px; border-radius: 99px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-light)); opacity: .8; }
+    .viz i:nth-child(2) { width: 76%; opacity: .45; }
+    .viz i:nth-child(3) { width: 52%; opacity: .28; }
+    .viz.alt i { background: none; height: 34px; border-radius: 12px; opacity: 1;
+      border: 1px solid var(--line); background: rgb(255 255 255 / 3%); }
+    .viz.alt i::before { content: ""; display: block; height: 100%; width: 40%; border-radius: inherit;
+      background: linear-gradient(90deg, var(--brand), var(--brand-light)); opacity: .7; }
 
-    /* ---------- bento ---------- */
-    .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .cell { position: relative; padding: 32px; border: 1px solid var(--panel-line); border-radius: 26px;
-      background: var(--panel); display: flex; flex-direction: column; justify-content: space-between;
-      transition: transform .35s var(--ease), border-color .35s var(--ease), background-color .35s var(--ease); }
-    .cell:hover { transform: translateY(-5px); border-color: rgb(139 124 246 / 55%);
-      background: rgb(139 124 246 / 7%); }
-    .cell.big { grid-column: span 2; grid-row: span 2; }
-    .cell .ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
-      color: var(--brand-pale); margin-bottom: 26px;
-      background: linear-gradient(135deg, rgb(139 124 246 / 30%), rgb(139 124 246 / 8%));
-      border: 1px solid rgb(139 124 246 / 35%); box-shadow: 0 0 26px rgb(139 124 246 / 22%); }
-    .cell h3 { font-size: 20px; letter-spacing: -.015em; }
-    .cell p { margin-top: 10px; color: var(--txt-dim); font-size: 14px; line-height: 1.7; }
-    .flow { margin-top: 30px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .flow div { padding: 15px 16px; border: 1px solid var(--panel-line); border-radius: 14px;
-      background: rgb(6 6 10 / 55%); font-size: 12.5px; color: var(--txt-dim); }
-    .flow div b { display: block; color: var(--txt); font-size: 13px; margin-bottom: 7px; font-weight: 650; }
-    .flow i { display: block; height: 6px; margin-top: 9px; border-radius: 99px;
-      background: linear-gradient(90deg, var(--brand), var(--brand-light)); opacity: .85; }
-    .flow i.s { width: 58%; opacity: .5; }
+    /* ===== examples editorial ===== */
+    .ex-head { width: min(1280px, calc(100% - 88px)); margin: 0 auto; padding-top: clamp(110px, 14vw, 180px); }
+    .cases { width: min(1280px, calc(100% - 88px)); margin-inline: auto; }
+    .case { display: grid; grid-template-columns: 1.18fr .82fr; gap: clamp(28px, 4.5vw, 72px);
+      align-items: center; padding: clamp(48px, 6vw, 84px) 0; border-bottom: 1px solid var(--line); }
+    .case:last-child { border-bottom: 0; }
+    .case:nth-child(even) .vid { order: 2; }
+    .vid { position: relative; aspect-ratio: 16 / 10; border-radius: 26px; overflow: hidden;
+      border: 1px solid var(--line); box-shadow: 0 44px 90px -34px rgb(48 42 96 / 30%);
+      transition: transform .5s var(--ease), border-color .5s var(--ease), box-shadow .5s var(--ease); }
+    .vid:hover { transform: scale(1.015); border-color: rgb(139 124 246 / 45%);
+      box-shadow: 0 50px 110px -30px rgb(139 124 246 / 28%); }
+    .vid video { width: 100%; height: 100%; object-fit: cover; }
+    .case-txt .idx { font-size: 13px; color: var(--brand); font-weight: 750; letter-spacing: .3em; }
+    .case-txt h3 { margin-top: 14px; font-size: clamp(24px, 2.6vw, 34px); letter-spacing: -.025em; line-height: 1.15; }
+    .case-txt p { margin-top: 14px; color: var(--dim); font-size: 15px; line-height: 1.8; max-width: 400px; }
+    .chips { display: flex; gap: 9px; margin-top: 22px; flex-wrap: wrap; }
 
-    /* ---------- examples ---------- */
-    .vids { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .vid-card { position: relative; aspect-ratio: 9 / 16; border-radius: 28px; overflow: hidden;
-      border: 1px solid var(--panel-line); background: #0c0c14;
-      transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease); }
-    .vid-card:hover { transform: translateY(-6px); border-color: rgb(139 124 246 / 50%);
-      box-shadow: 0 34px 80px -20px rgb(139 124 246 / 30%); }
-    .vid-card video { width: 100%; height: 100%; object-fit: cover; }
-    .vid-cap { position: absolute; inset: auto 0 0; padding: 60px 18px 18px;
-      background: linear-gradient(180deg, transparent, rgb(4 4 8 / 88%)); }
-    .vid-badge { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 9px;
-      padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .1em;
-      color: #fff; background: rgb(139 124 246 / 85%); box-shadow: 0 0 20px rgb(139 124 246 / 50%); }
-    .vid-title { font-size: 15px; font-weight: 600; color: #fff; }
+    /* ===== spec sheet ===== */
+    .spec { width: min(980px, calc(100% - 88px)); margin-inline: auto; }
+    .spec-row { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: baseline;
+      padding: 26px 6px; border-bottom: 1px solid var(--line); }
+    .spec-row dt { color: var(--faint); font-size: 12.5px; font-weight: 650; letter-spacing: .22em; text-transform: uppercase; }
+    .spec-row dd { font-size: clamp(19px, 2.2vw, 26px); font-weight: 700; letter-spacing: -.015em; }
+    .spec-row dd small { display: block; margin-top: 5px; color: var(--dim); font-size: 13.5px; font-weight: 450; }
 
-    /* ---------- cta ---------- */
-    .cta { position: relative; overflow: hidden; text-align: center;
-      border: 1px solid rgb(139 124 246 / 30%); border-radius: 40px;
-      padding: clamp(80px, 11vw, 140px) clamp(24px, 5vw, 80px);
-      background:
-        radial-gradient(90% 130% at 50% -20%, rgb(139 124 246 / 40%) 0%, transparent 60%),
-        linear-gradient(180deg, #12101d 0%, #08070d 100%); }
-    .cta h2 { font-size: clamp(44px, 7.4vw, 104px); line-height: 1.0; letter-spacing: -.04em; font-weight: 800;
-      background: linear-gradient(180deg, #fff 20%, var(--brand-pale) 90%);
+    /* ===== finale ===== */
+    .finale { position: relative; min-height: 92vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center; overflow: hidden;
+      padding: 120px 24px; }
+    .finale::before { content: ""; position: absolute; width: 1100px; height: 700px; left: 50%; top: 50%;
+      transform: translate(-50%, -42%); border-radius: 50%;
+      background: radial-gradient(closest-side, rgb(139 124 246 / 20%), transparent 72%);
+      filter: blur(60px); pointer-events: none; }
+    .finale > * { position: relative; z-index: 1; }
+    .finale h2 { font-size: clamp(48px, 8vw, 118px); line-height: 1.02; letter-spacing: -.04em; font-weight: 800;
+      background: linear-gradient(180deg, #17171c 12%, var(--brand) 92%);
       background-clip: text; -webkit-background-clip: text; color: transparent; }
-    .cta p { max-width: 520px; margin: 26px auto 0; color: var(--txt-dim); font-size: 16.5px; line-height: 1.75; }
-    .cta .hero-actions { margin-top: 44px; }
-    .cta .version-status { color: var(--txt-faint); }
+    .finale p { margin-top: 24px; color: var(--dim); font-size: 16.5px; }
+    .finale .btn { margin-top: 44px; }
+    .finale .version-status { margin-top: 18px; }
 
-    footer { padding: 56px 0 48px; text-align: center; color: var(--txt-faint); font-size: 12.5px; letter-spacing: .05em; }
+    footer { padding: 40px 0 46px; text-align: center; color: var(--faint); font-size: 12px; letter-spacing: .06em;
+      border-top: 1px solid var(--line); }
 
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
     .reveal.in { opacity: 1; transform: none; }
 
-    @media (max-width: 980px) {
-      .nav-links { display: none; }
-      .bento { grid-template-columns: repeat(2, 1fr); }
-      .cell.big { grid-column: span 2; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .vids { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 1060px) {
+      .hero { grid-template-columns: 1fr; padding-top: 130px; gap: 60px; }
+      .stage { max-width: 560px; margin-inline: auto; width: 100%; }
+      .device { transform: none; }
+      .flowsec { grid-template-columns: 1fr; }
+      .flow-left { position: static; }
+      .steps { flex-direction: row; flex-wrap: wrap; }
+      .step { flex: 1 1 240px; }
+      .case { grid-template-columns: 1fr; }
+      .case:nth-child(even) .vid { order: 0; }
+      .dots { display: none; }
     }
     @media (max-width: 640px) {
-      .shell { width: calc(100% - 36px); }
-      .nav-ver { display: none; }
-      .hero { min-height: 94vh; padding-top: 118px; }
-      .h1-main { font-size: clamp(46px, 14.5vw, 72px); }
-      .hero-actions { width: 100%; }
-      .hero-actions .btn { width: 100%; max-width: 380px; }
-      .bento, .stats, .vids { grid-template-columns: 1fr; }
-      .cell.big { grid-column: auto; }
-      .flow { grid-template-columns: 1fr 1fr; }
+      .wrap, .hero, .flowsec, .ex-head, .cases, .spec { width: calc(100% - 40px); }
+      .pill { display: none; }
+      .hero { padding-top: 112px; }
+      .hero-cta .btn { width: 100%; }
+      .mini-stats { gap: 18px; }
+      .panel { padding: 30px 26px; min-height: 360px; }
+      .spec-row { grid-template-columns: 1fr; gap: 8px; }
+      .btn-xl { width: 100%; max-width: 360px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -238,160 +273,166 @@
   <div id="bar"></div>
 
   <header class="nav">
-    <div class="shell nav-inner">
-      <a class="logo" href="#"><img src="./zhiyin-logo.png" alt="">知音</a>
-      <nav class="nav-links">
-        <a href="#features">功能</a>
-        <a href="#examples">示例</a>
-        <a href="#trust">优势</a>
-        <a href="#download">下载</a>
-      </nav>
-      <div class="nav-right">
-        <span class="nav-ver">v0.9.4+</span>
-        <button class="btn btn-primary btn-nav" id="download" type="button">下载知音</button>
+    <div class="nav-in">
+      <a class="logo" href="#"><img src="./zhiyin-logo.png" alt="">知音 · 官网</a>
+      <div class="nav-r">
+        <span class="pill">Windows · v0.9.4+</span>
+        <button class="btn btn-p btn-sm" id="download" type="button">下载知音</button>
       </div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
-    <div class="orb orb-c"></div>
-    <div class="grid-lines"></div>
+  <aside class="dots" aria-hidden="true">
+    <a href="#top" data-dot><span>首页</span></a>
+    <a href="#flow" data-dot><span>工作流</span></a>
+    <a href="#examples" data-dot><span>示例</span></a>
+    <a href="#specs" data-dot><span>规格</span></a>
+    <a href="#download" data-dot><span>下载</span></a>
+  </aside>
 
-    <span class="eyebrow"><i></i>ZHIYIN · AI 内容营销系统</span>
-    <h1>
-      <span class="h1-top">一句需求，</span>
-      <span class="h1-main">创作 · 发布 · 经营</span>
-      <span class="h1-tail">一次全部完成</span>
-    </h1>
-    <p class="hero-sub">知音把 AI 内容创作、多平台分发与 7×24 智能接待，装进同一个桌面应用。<br>无需配置环境，打开即可开工。</p>
-    <div class="hero-actions">
-      <button class="btn btn-primary btn-lg" id="download-hero" type="button">立即下载知音</button>
-      <a class="btn btn-ghost btn-lg" href="#features">了解功能 ↓</a>
-    </div>
-    <div class="version-status" id="meta" aria-live="polite">正在获取最新版本…</div>
-    <div class="scroll-hint">Scroll</div>
-  </section>
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span><em>AI 创作</em> 文案 图片 视频 <em>多平台发布</em> 抖音 小红书 视频号 <em>智能接待</em> 评论 私信 7×24 <em>本地数据</em> 隐私 安全 自动更新</span>
-      <span><em>AI 创作</em> 文案 图片 视频 <em>多平台发布</em> 抖音 小红书 视频号 <em>智能接待</em> 评论 私信 7×24 <em>本地数据</em> 隐私 安全 自动更新</span>
-    </div>
-  </div>
-
-  <section class="sec" id="features">
-    <div class="shell">
-      <div class="sec-head reveal">
-        <span class="sec-tag">Capabilities · 产品能力</span>
-        <h2>不只是聊天，<br>是你的内容工作台</h2>
-        <p>创作、素材、发布与客户互动，收进同一个桌面工作区。</p>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-copy">
+      <span class="kick"><i></i>ZHIYIN · AI CONTENT OS</span>
+      <h1>
+        <span class="h-a">一句需求，</span>
+        <span class="h-b">创作即发布</span>
+        <span class="h-c">经营全自动</span>
+      </h1>
+      <p class="hero-sub">知音把 AI 内容创作、多平台分发与 7×24 智能接待装进同一个桌面应用。无需配置环境，打开即可开工。</p>
+      <div class="hero-cta">
+        <button class="btn btn-p btn-xl" id="download-hero" type="button">免费下载</button>
+        <a class="btn btn-g btn-xl" href="#flow">看看工作流 ↓</a>
       </div>
-      <div class="bento">
-        <article class="cell big reveal">
-          <div>
-            <span class="ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
-            <h3>AI 内容创作</h3>
-            <p>输入一句需求，自动生成文案、图片和视频草稿，支持多轮续写与改写。</p>
-          </div>
-          <div class="flow">
-            <div><b>输入一句话需求</b>描述主题与风格<i></i></div>
-            <div><b>AI 自动生成方案</b>文案 + 配图 + 视频草稿<i class="s"></i></div>
-            <div><b>一键多平台发布</b>抖音 · 小红书 · 视频号<i></i></div>
-            <div><b>作品与记录留档</b>随时回看与管理<i class="s"></i></div>
-          </div>
-        </article>
-        <article class="cell reveal">
-          <div>
-            <span class="ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5-5 5 5"/><path d="M5 21h14"/></svg></span>
-            <h3>多平台发布</h3>
-            <p>抖音、小红书、视频号集中管理，素材与任务一站调度。</p>
-          </div>
-        </article>
-        <article class="cell reveal">
-          <div>
-            <span class="ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/><path d="M8 10h8M8 14h5"/></svg></span>
-            <h3>7×24 客户接待</h3>
-            <p>评论私信统一收件箱，自动接待与人工介入随时切换。</p>
-          </div>
-        </article>
-        <article class="cell reveal">
-          <div>
-            <span class="ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg></span>
-            <h3>数据与作品管理</h3>
-            <p>作品、任务、发布记录本地留档，随时回看。</p>
-          </div>
-        </article>
-        <article class="cell reveal">
-          <div>
-            <span class="ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-            <h3>本地账号与数据</h3>
-            <p>账号与数据保存在你自己的电脑里。</p>
-          </div>
-        </article>
-        <article class="cell reveal">
-          <div>
-            <span class="ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></span>
-            <h3>自动更新</h3>
-            <p>安装一次，后续版本 APP 内自动升级。</p>
-          </div>
-        </article>
+      <div class="version-status" id="meta" aria-live="polite">正在获取最新版本…</div>
+      <div class="mini-stats">
+        <div class="ms"><b>1 句话</b><span>生成完整方案</span></div>
+        <div class="ms"><b>3+ 平台</b><span>同步分发</span></div>
+        <div class="ms"><b>7×24</b><span>自动接待</span></div>
       </div>
     </div>
-  </section>
-
-  <section class="sec" id="examples">
-    <div class="shell">
-      <div class="sec-head reveal">
-        <span class="sec-tag">Showcase · 精选示例</span>
-        <h2>看看 AI 已经能做什么</h2>
-        <p>以下均为知音真实创作能力演示，打开页面即可播放。</p>
-      </div>
-      <div class="vids">
-        <article class="vid-card reveal">
-          <video class="example-video" src="./assets/promptGallery/video01.mp4" poster="./assets/promptGallery/cover01.png" autoplay muted loop playsinline preload="auto"></video>
-          <div class="vid-cap"><span class="vid-badge">AI 示例</span><div class="vid-title">金丝雀码头探店打卡视频</div></div>
-        </article>
-        <article class="vid-card reveal">
-          <video class="example-video" src="./assets/promptGallery/video02.mp4" poster="./assets/promptGallery/cover02.png" autoplay muted loop playsinline preload="auto"></video>
-          <div class="vid-cap"><span class="vid-badge">AI 示例</span><div class="vid-title">餐厅探店短视频</div></div>
-        </article>
-        <article class="vid-card reveal">
-          <video class="example-video" src="./assets/promptGallery/video03.mp4" poster="./assets/promptGallery/cover03.png" autoplay muted loop playsinline preload="auto"></video>
-          <div class="vid-cap"><span class="vid-badge">AI 示例</span><div class="vid-title">老洋房英式餐厅宣传片</div></div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="trust">
-    <div class="shell">
-      <div class="sec-head reveal">
-        <span class="sec-tag">Why ZhiYin · 为什么选知音</span>
-        <h2>装到电脑上，<br>就是一套完整工作台</h2>
-        <p>不需要数据库、Redis 或环境变量，下载安装即可开始。</p>
-      </div>
-      <div class="stats reveal">
-        <div class="stat"><b>1 句</b><span>一句话生成完整内容方案</span></div>
-        <div class="stat"><b>3+ 平台</b><span>抖音 · 小红书 · 视频号同步分发</span></div>
-        <div class="stat"><b>7×24</b><span>全天候自动接待评论与私信</span></div>
-        <div class="stat"><b>0 配置</b><span>零基础可用，无需命令行</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="download">
-    <div class="shell">
-      <div class="cta reveal">
-        <h2>把知音<br>装进你的电脑</h2>
-        <p>开始你的 AI 内容创作与多平台营销。<br>Windows 10 / 11 可用，下载安装后即可使用。</p>
-        <div class="hero-actions">
-          <button class="btn btn-primary btn-lg" id="download-cta" type="button">下载知音 ↓</button>
+    <div class="stage">
+      <div class="device" aria-hidden="true">
+        <div class="d-bar"><i></i><i></i><i></i></div>
+        <div class="d-body">
+          <div class="d-side"><i></i><i></i><i></i><i></i></div>
+          <div class="d-main">
+            <div class="d-input"><em>帮我做一条上海探店视频…</em><span class="caret"></span></div>
+            <div class="d-chat">
+              <span class="bub u"></span>
+              <span class="bub b2"></span>
+              <span class="bub b3"></span>
+              <span class="bub typing"><i></i><i></i><i></i></span>
+            </div>
+            <div class="d-tools"><i></i><i></i><i></i></div>
+          </div>
         </div>
-        <div class="version-status" id="meta-cta" aria-live="polite"></div>
       </div>
     </div>
+  </section>
+
+  <!-- FLOW -->
+  <section class="flowsec" id="flow">
+    <div class="flow-left">
+      <span class="tag">Workflow · 工作流</span>
+      <h2 class="h2">从一句话<br>到全平台生意</h2>
+      <p class="lead">三个环节自动串联：你负责想法，知音负责执行。</p>
+      <div class="steps">
+        <div class="step on" data-step="1"><span class="n">01</span><div><b>智能创作</b><p>文案、配图、视频草稿一次生成</p></div></div>
+        <div class="step" data-step="2"><span class="n">02</span><div><b>多平台发布</b><p>抖音、小红书、视频号集中调度</p></div></div>
+        <div class="step" data-step="3"><span class="n">03</span><div><b>自动接待</b><p>评论私信 7×24 秒回不漏客</p></div></div>
+      </div>
+    </div>
+    <div class="panels">
+      <article class="panel lit" data-panel="1">
+        <span class="ghost">01</span>
+        <div>
+          <h3>说出需求，内容就位</h3>
+          <p>自然语言描述主题与风格，AI 同步产出文案、图片与视频草稿；不满意？多轮续写直到满意为止。</p>
+          <div class="viz"><i></i><i></i><i></i></div>
+        </div>
+        <div class="panel-foot"><span class="chip">文案</span><span class="chip">配图</span><span class="chip">视频草稿</span><span class="chip">多轮续写</span></div>
+      </article>
+      <article class="panel" data-panel="2">
+        <span class="ghost">02</span>
+        <div>
+          <h3>一键分发到所有主页</h3>
+          <p>账号集中管理，发布任务排队执行；每个平台的素材规格自动适配，不用反复裁剪。</p>
+          <div class="viz alt"><i></i><i></i><i></i></div>
+        </div>
+        <div class="panel-foot"><span class="chip">抖音</span><span class="chip">小红书</span><span class="chip">视频号</span><span class="chip">定时队列</span></div>
+      </article>
+      <article class="panel" data-panel="3">
+        <span class="ghost">03</span>
+        <div>
+          <h3>评论区替你守夜</h3>
+          <p>评论与私信统一收件箱，AI 自动接待常见问题，复杂对话无缝转人工。</p>
+          <div class="viz"><i></i><i class="s"></i></div>
+        </div>
+        <div class="panel-foot"><span class="chip">统一收件箱</span><span class="chip">秒级回复</span><span class="chip">人工接管</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EXAMPLES -->
+  <section id="examples">
+    <div class="ex-head">
+      <span class="tag">Showcase · 实拍示例</span>
+      <h2 class="h2" style="margin-top:18px;">AI 做出来的片子，长这样</h2>
+      <p class="lead">全部由知音真实生成，无人工后期。</p>
+    </div>
+    <div class="cases">
+      <article class="case reveal">
+        <div class="vid"><video class="example-video" src="./assets/promptGallery/video01.mp4" poster="./assets/promptGallery/cover01.png" autoplay muted loop playsinline preload="auto"></video></div>
+        <div class="case-txt">
+          <span class="idx">CASE 01</span>
+          <h3>金丝雀码头探店打卡视频</h3>
+          <p>输入店铺位置与风格关键词，AI 完成脚本、镜头节奏与配音的全流程输出。</p>
+          <div class="chips"><span class="chip">探店</span><span class="chip">短视频</span><span class="chip">自动配音</span></div>
+        </div>
+      </article>
+      <article class="case reveal">
+        <div class="vid"><video class="example-video" src="./assets/promptGallery/video02.mp4" poster="./assets/promptGallery/cover02.png" autoplay muted loop playsinline preload="auto"></video></div>
+        <div class="case-txt">
+          <span class="idx">CASE 02</span>
+          <h3>餐厅探店短视频</h3>
+          <p>从菜单图到成片，一条指令完成菜品亮点提炼与画面编排。</p>
+          <div class="chips"><span class="chip">餐饮</span><span class="chip">种草</span><span class="chip">快剪</span></div>
+        </div>
+      </article>
+      <article class="case reveal">
+        <div class="vid"><video class="example-video" src="./assets/promptGallery/video03.mp4" poster="./assets/promptGallery/cover03.png" autoplay muted loop playsinline preload="auto"></video></div>
+        <div class="case-txt">
+          <span class="idx">CASE 03</span>
+          <h3>老洋房英式餐厅宣传片</h3>
+          <p>氛围感宣传片样片：空间叙事 + 色调统一，直接可投放到门店大屏。</p>
+          <div class="chips"><span class="chip">宣传片</span><span class="chip">氛围感</span><span class="chip">品牌调性</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section id="specs" style="padding-top: clamp(110px, 14vw, 180px);">
+    <div class="spec">
+      <span class="tag">Specs · 规格</span>
+      <h2 class="h2" style="margin-top:18px; margin-bottom:34px;">一台电脑的<br>完整工作台</h2>
+      <dl>
+        <div class="spec-row"><dt>运行环境</dt><dd>Windows 10 / 11<small>安装即用，无需数据库、Redis 或环境变量</small></dd></div>
+        <div class="spec-row"><dt>数据归属</dt><dd>完全本地化<small>账号与作品保存在你自己的电脑里</small></dd></div>
+        <div class="spec-row"><dt>接待能力</dt><dd>7×24 全天候<small>评论私信自动回复，复杂会话转人工</small></dd></div>
+        <div class="spec-row"><dt>更新方式</dt><dd>应用内自动升级<small>首次安装后持续获取新版本</small></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- FINALE -->
+  <section class="finale" id="download">
+    <span class="tag">Get Started</span>
+    <h2 style="margin-top:26px;">把知音<br>装进电脑</h2>
+    <p>Windows 10 / 11 · 下载安装即可使用，后续自动更新。</p>
+    <button class="btn btn-p btn-xl" id="download-cta" type="button">下载知音 ↓</button>
+    <div class="version-status" id="meta-cta" aria-live="polite"></div>
   </section>
 
   <footer>知音 · AI 内容创作与多平台营销助手</footer>
@@ -477,6 +518,37 @@
     buttons.forEach(button => button.addEventListener('click', download))
     loadStatus()
 
+    // flow scrollytelling
+    const stepEls = Array.from(document.querySelectorAll('.step'))
+    const panelEls = Array.from(document.querySelectorAll('.panel'))
+    if ('IntersectionObserver' in window && panelEls.length) {
+      const flowObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const num = entry.target.getAttribute('data-panel')
+            stepEls.forEach(s => s.classList.toggle('on', s.getAttribute('data-step') === num))
+            panelEls.forEach(p => p.classList.toggle('lit', p === entry.target))
+          }
+        })
+      }, { rootMargin: '-42% 0px -42% 0px' })
+      panelEls.forEach(p => flowObs.observe(p))
+    }
+
+    // dot nav sync
+    const dotLinks = Array.from(document.querySelectorAll('[data-dot]'))
+    const dotTargets = dotLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean)
+    if ('IntersectionObserver' in window && dotTargets.length) {
+      const dotObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            dotLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + entry.target.id))
+          }
+        })
+      }, { rootMargin: '-45% 0px -50% 0px' })
+      dotTargets.forEach(t => dotObs.observe(t))
+    }
+
+    // reveal
     const revealItems = document.querySelectorAll('.reveal')
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
@@ -486,7 +558,7 @@
             observer.unobserve(entry.target)
           }
         })
-      }, { threshold: 0.1 })
+      }, { threshold: 0.12 })
       revealItems.forEach(item => observer.observe(item))
     } else {
       revealItems.forEach(item => item.classList.add('in'))
